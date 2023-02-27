@@ -6,7 +6,7 @@ import trash from '../../assets/images/icons/Trash.svg';
 import arrow from '../../assets/images/icons/Arrow.svg';
 
 import {
-  InputSearchContainer, Header, ListContainer, Card,
+  InputSearchContainer, Header, ListHeader, Card,
 } from './styles';
 
 type Contact = {
@@ -19,13 +19,18 @@ type Contact = {
 }
 
 const Home = () => {
+  const [orderBy, setOrderBy] = useState('asc');
   const [contacts, setContacts] = useState<Contact[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:3001/contacts')
+    fetch(`http://localhost:3001/contacts?orderBy=${orderBy}`)
       .then((response) => response.json())
       .then((data) => setContacts(data));
-  }, []);
+  }, [orderBy]);
+
+  function handleToogleOrderBy() {
+    setOrderBy((prevState) => (prevState === 'asc' ? 'desc' : 'asc'));
+  }
 
   return (
     <>
@@ -42,16 +47,16 @@ const Home = () => {
       </Header>
 
       {contacts.length > 0 && (
-        <ListContainer>
-          <header>
-            <button type="button">
+        <>
+          <ListHeader orderBy={orderBy}>
+            <button type="button" onClick={handleToogleOrderBy}>
               <span>Nome</span>
               <img src={arrow} alt="Ícone de uma seta, em roxo" />
             </button>
-          </header>
+          </ListHeader>
 
           {contacts.map((contact) => (
-            <Card>
+            <Card key={Number(contact.phone)}>
               <div className="info">
                 <div className="contact-name">
                   <strong>{contact.name}</strong>
@@ -74,7 +79,7 @@ const Home = () => {
               </div>
             </Card>
           ))}
-        </ListContainer>
+        </>
       )}
     </>
   );

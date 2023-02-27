@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+type ListHeaderProps = {
+  orderBy: String;
+}
+
 export const InputSearchContainer = styled.div`
   width: 100%;
   margin-bottom: 32px;
@@ -52,23 +56,26 @@ export const Header = styled.header`
   }
 `;
 
-export const ListContainer = styled.div`
+export const ListHeader = styled.header<ListHeaderProps>`
   margin-top: 24px;
 
-  header {
-    margin-bottom: 8px;
+  margin-bottom: 8px;
 
-    button {
-      background: transparent;
-      border: none;
-      display: flex;
-      align-items: center;
+  button {
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
 
-      span {
-        font-weight: 700;
-        margin-right: 8px;
-        color: ${({ theme }) => theme.colors.primary.main};
-      }
+    span {
+      font-weight: 700;
+      margin-right: 8px;
+      color: ${({ theme }) => theme.colors.primary.main};
+    }
+
+    img {
+      transform: ${({ orderBy }) => (orderBy === 'asc' ? 'rotate(180deg)' : 'rotate(0deg)')};
+      transition: transform 0.2s ease-in;
     }
   }
 `;
