@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import {
-  ChangeEvent, useEffect, useState,
+  ChangeEvent, useEffect, useMemo, useState,
 } from 'react';
 
 import edit from '../../assets/images/icons/Edit.svg';
@@ -25,9 +25,9 @@ const Home = () => {
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const filteredContacts = contacts.filter((contact) => (
+  const filteredContacts = useMemo(() => contacts.filter((contact) => (
     contact.name.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
-  ));
+  )), [contacts, searchTerm]);
 
   useEffect(() => {
     fetch(`http://localhost:3001/contacts?orderBy=${orderBy}`)
