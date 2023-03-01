@@ -2,7 +2,15 @@ import ReactDOM from 'react-dom';
 
 import { Overlay } from './styles';
 
-const Loader = () => {
+type LoaderProps = {
+  isLoading: boolean;
+}
+
+const Loader = ({ isLoading }: LoaderProps) => {
+  if (!isLoading) {
+    return null;
+  }
+
   const fullScreenRoot = document.getElementById('fullscreen-root');
 
   if (!fullScreenRoot) {

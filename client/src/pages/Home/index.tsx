@@ -7,6 +7,8 @@ import edit from '../../assets/images/icons/Edit.svg';
 import trash from '../../assets/images/icons/Trash.svg';
 import arrow from '../../assets/images/icons/Arrow.svg';
 
+import Loader from '../../components/Loader';
+
 import {
   InputSearchContainer, Header, ListHeader, Card,
 } from './styles';
@@ -24,15 +26,22 @@ const Home = () => {
   const [orderBy, setOrderBy] = useState('asc');
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   const filteredContacts = useMemo(() => contacts.filter((contact) => (
     contact.name.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
   )), [contacts, searchTerm]);
 
   useEffect(() => {
+    setIsLoading(true);
+
     fetch(`http://localhost:3001/contacts?orderBy=${orderBy}`)
       .then((response) => response.json())
-      .then((data) => setContacts(data));
+      .then(async (data) => {
+        setContacts(data);
+      })
+      .catch((error) => console.log(error))
+      .finally(() => setIsLoading(false));
   }, [orderBy]);
 
   function handleToogleOrderBy() {
@@ -45,6 +54,8 @@ const Home = () => {
 
   return (
     <>
+      <Loader isLoading={isLoading} />
+
       <InputSearchContainer>
         <input
           value={searchTerm}
