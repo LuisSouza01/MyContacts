@@ -8,12 +8,13 @@ import trash from '../../assets/images/icons/Trash.svg';
 import arrow from '../../assets/images/icons/Arrow.svg';
 
 import Loader from '../../components/Loader';
+import ContactsService from '../../services/ContactsService';
 
 import {
   InputSearchContainer, Header, ListHeader, Card,
 } from './styles';
 
-type Contact = {
+export interface Contact {
   id: String;
   name: String;
   phone: String;
@@ -37,13 +38,9 @@ const Home = () => {
       try {
         setIsLoading(true);
 
-        const response = await fetch(
-          `http://localhost:3001/contacts?orderBy=${orderBy}`,
-        );
+        const contactsList = await ContactsService.listContacts(orderBy);
 
-        const data = await response.json();
-
-        setContacts(data);
+        setContacts(contactsList);
       } catch (error) {
         console.log('error', error);
       } finally {
