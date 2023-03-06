@@ -33,15 +33,25 @@ const Home = () => {
   )), [contacts, searchTerm]);
 
   useEffect(() => {
-    setIsLoading(true);
+    async function loadContacts() {
+      try {
+        setIsLoading(true);
 
-    fetch(`http://localhost:3001/contacts?orderBy=${orderBy}`)
-      .then((response) => response.json())
-      .then(async (data) => {
+        const response = await fetch(
+          `http://localhost:3001/contacts?orderBy=${orderBy}`,
+        );
+
+        const data = await response.json();
+
         setContacts(data);
-      })
-      .catch((error) => console.log(error))
-      .finally(() => setIsLoading(false));
+      } catch (error) {
+        console.log('error', error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    loadContacts();
   }, [orderBy]);
 
   function handleToogleOrderBy() {
