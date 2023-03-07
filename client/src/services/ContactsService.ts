@@ -1,13 +1,26 @@
+import React from 'react';
+
 import { Contact } from '../pages/Home';
+import { HttpClient } from './utils/HttpClient';
 
-class ContactsService {
+interface ContactsServiceProps {
+  httpClient: HttpClient;
+}
+
+class ContactsService extends React.Component<{}, ContactsServiceProps> {
+  constructor({}) {
+    super({});
+
+    this.state = {
+      httpClient: new HttpClient({ baseURL: 'http://localhost:3001' }),
+    };
+  }
+
   async listContacts(orderBy: string = 'asc'): Promise<Contact[]> {
-    const response = await fetch(
-      `http://localhost:3001/contacts?orderBy=${orderBy}`,
-    );
+    const { httpClient } = this.state;
 
-    return response.json();
+    return httpClient.get(`/contacts?orderBy=${orderBy}`);
   }
 }
 
-export default new ContactsService();
+export default new ContactsService({});

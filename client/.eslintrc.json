@@ -32,6 +32,8 @@
     "no-console": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "class-methods-use-this": "off"
+    "class-methods-use-this": "off",
+    "react/no-unused-class-component-methods": "off",
+    "no-empty-pattern": "off"
   }
 }
