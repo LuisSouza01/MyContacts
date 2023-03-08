@@ -24,6 +24,6 @@ export class HttpClient extends React.Component<HttpClientProps, HttpClientProps
       return response.json();
     }
 
-    throw new Error();
+    throw new Error(`${response.status} - ${response.statusText}`);
   }
 }
