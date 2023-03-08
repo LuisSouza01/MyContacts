@@ -20,10 +20,18 @@ export class HttpClient extends React.Component<HttpClientProps, HttpClientProps
 
     const response = await fetch(`${baseURL}${path}`);
 
-    if (response.ok) {
-      return response.json();
+    const contentType = response.headers.get('Content-Type');
+
+    if (!contentType?.includes('application/json')) {
+      throw new Error(`${response.status} - ${response.statusText}`);
     }
 
-    throw new Error(`${response.status} - ${response.statusText}`);
+    const body = await response.json();
+
+    if (response.ok) {
+      return body;
+    }
+
+    throw new Error(body.error);
   }
 }
