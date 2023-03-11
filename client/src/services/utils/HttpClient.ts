@@ -1,5 +1,7 @@
 import React from 'react';
 
+import APIError from '../../errors/APIError';
+
 interface HttpClientProps {
   baseURL: String;
 }
@@ -22,16 +24,18 @@ export class HttpClient extends React.Component<HttpClientProps, HttpClientProps
 
     const contentType = response.headers.get('Content-Type');
 
+    let body = null;
+
     if (!contentType?.includes('application/json')) {
-      throw new Error(`${response.status} - ${response.statusText}`);
+      throw new APIError({ response, body });
     }
 
-    const body = await response.json();
+    body = await response.json();
 
     if (response.ok) {
       return body;
     }
 
-    throw new Error(body.error);
+    throw new APIError({ response, body });
   }
 }
