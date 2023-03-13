@@ -6,13 +6,15 @@ import {
 import edit from '../../assets/images/icons/Edit.svg';
 import trash from '../../assets/images/icons/Trash.svg';
 import arrow from '../../assets/images/icons/Arrow.svg';
+import sad from '../../assets/images/sad.svg';
 
 import Loader from '../../components/Loader';
 import ContactsService from '../../services/ContactsService';
 
 import {
-  InputSearchContainer, Header, ListHeader, Card,
+  InputSearchContainer, Header, ListHeader, Card, ErrroContainer,
 } from './styles';
+import Button from '../../components/Button';
 
 export interface Contact {
   id: String;
@@ -28,6 +30,7 @@ const Home = () => {
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
 
   const filteredContacts = useMemo(() => contacts.filter((contact) => (
     contact.name.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
@@ -42,7 +45,7 @@ const Home = () => {
 
         setContacts(contactsList);
       } catch (error) {
-        console.log('error', error);
+        setHasError(true);
       } finally {
         setIsLoading(false);
       }
@@ -72,13 +75,27 @@ const Home = () => {
         />
       </InputSearchContainer>
 
-      <Header>
-        <strong>
-          {filteredContacts.length}
-          {filteredContacts.length === 1 ? ' contato' : ' contatos'}
-        </strong>
+      <Header hasError={hasError}>
+        {!hasError && (
+          <strong>
+            {filteredContacts.length}
+            {filteredContacts.length === 1 ? ' contato' : ' contatos'}
+          </strong>
+        )}
         <Link to="/new">Novo contato</Link>
       </Header>
+
+      {hasError && (
+        <ErrroContainer>
+          <img src={sad} alt="Sad" />
+          <div className="details">
+            <span>Ocorreu um erro ao obter os seus contatos!</span>
+            <Button type="button">
+              Tentar novamente
+            </Button>
+          </div>
+        </ErrroContainer>
+      )}
 
       {filteredContacts.length > 0 && (
         <>

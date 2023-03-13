@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+type HeaderProps = {
+  hasError: boolean;
+}
+
 type ListHeaderProps = {
   orderBy: String;
 }
@@ -26,10 +30,14 @@ export const InputSearchContainer = styled.div`
   }
 `;
 
-export const Header = styled.header`
+export const Header = styled.header<HeaderProps>`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: ${({ hasError }) => (hasError ? 'flex-end' : 'space-between')};
+
+  margin-top: 32px;
+  margin-bottom: 2px solid ${({ theme }) => theme.colors.gray[100]};
+  padding-bottom: 16px;
 
   strong {
     color: #222;
@@ -129,6 +137,24 @@ export const Card = styled.div`
       border: none;
       background: transparent;
       margin-left: 8px;
+    }
+  }
+`;
+
+export const ErrroContainer = styled.div`
+  margin-top: 16px;
+
+  display: flex;
+  align-items: center;
+
+  .details {
+    margin-left: 24px;
+
+    strong {
+      font-size: 22px;
+      color: ${({ theme }) => theme.colors.danger.main};
+      display: block;
+      margin-bottom: 8px;
     }
   }
 `;
