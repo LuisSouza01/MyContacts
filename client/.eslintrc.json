@@ -34,6 +34,7 @@
     "react-hooks/exhaustive-deps": "warn",
     "class-methods-use-this": "off",
     "react/no-unused-class-component-methods": "off",
-    "no-empty-pattern": "off"
+    "no-empty-pattern": "off",
+    "react/jsx-no-bind": "off"
   }
 }

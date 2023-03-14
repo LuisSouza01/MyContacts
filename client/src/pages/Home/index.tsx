@@ -97,7 +97,7 @@ const Home = () => {
           <div className="details">
             <span>Ocorreu um erro ao obter os seus contatos!</span>
 
-            <Button type="button" onClick={() => handleTryAgain()}>
+            <Button type="button" onClick={handleTryAgain}>
               Tentar novamente
             </Button>
           </div>
