@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import {
-  ChangeEvent, useEffect, useMemo, useState,
+  ChangeEvent, useCallback, useEffect, useMemo, useState,
 } from 'react';
 
 import edit from '../../assets/images/icons/Edit.svg';
@@ -36,7 +36,7 @@ const Home = () => {
     contact.name.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
   )), [contacts, searchTerm]);
 
-  async function loadContacts() {
+  const loadContacts = useCallback(async () => {
     try {
       setIsLoading(true);
 
@@ -49,11 +49,11 @@ const Home = () => {
     } finally {
       setIsLoading(false);
     }
-  }
+  }, [orderBy]);
 
   useEffect(() => {
     loadContacts();
-  }, [orderBy]);
+  }, [loadContacts]);
 
   function handleToogleOrderBy() {
     setOrderBy((prevState) => (prevState === 'asc' ? 'desc' : 'asc'));
