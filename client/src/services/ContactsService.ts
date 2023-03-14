@@ -12,7 +12,7 @@ class ContactsService extends React.Component<{}, ContactsServiceProps> {
     super({});
 
     this.state = {
-      httpClient: new HttpClient({ baseURL: 'http://localhost:3002' }),
+      httpClient: new HttpClient({ baseURL: 'http://localhost:3001' }),
     };
   }
 

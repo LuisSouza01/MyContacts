@@ -36,21 +36,22 @@ const Home = () => {
     contact.name.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
   )), [contacts, searchTerm]);
 
-  useEffect(() => {
-    async function loadContacts() {
-      try {
-        setIsLoading(true);
+  async function loadContacts() {
+    try {
+      setIsLoading(true);
 
-        const contactsList = await ContactsService.listContacts(orderBy);
+      const contactsList = await ContactsService.listContacts(orderBy);
 
-        setContacts(contactsList);
-      } catch (error) {
-        setHasError(true);
-      } finally {
-        setIsLoading(false);
-      }
+      setHasError(false);
+      setContacts(contactsList);
+    } catch (error) {
+      setHasError(true);
+    } finally {
+      setIsLoading(false);
     }
+  }
 
+  useEffect(() => {
     loadContacts();
   }, [orderBy]);
 
@@ -60,6 +61,10 @@ const Home = () => {
 
   function handleSearch(event: ChangeEvent<HTMLInputElement>) {
     setSearchTerm(event.target.value);
+  }
+
+  function handleTryAgain() {
+    loadContacts();
   }
 
   return (
@@ -88,16 +93,18 @@ const Home = () => {
       {hasError && (
         <ErrorContainer>
           <img src={sad} alt="Sad" />
+
           <div className="details">
             <span>Ocorreu um erro ao obter os seus contatos!</span>
-            <Button type="button">
+
+            <Button type="button" onClick={() => handleTryAgain()}>
               Tentar novamente
             </Button>
           </div>
         </ErrorContainer>
       )}
 
-      {filteredContacts.length > 0 && (
+      {!hasError && filteredContacts.length > 0 && (
         <>
           <ListHeader orderBy={orderBy}>
             <button type="button" onClick={handleToogleOrderBy}>
