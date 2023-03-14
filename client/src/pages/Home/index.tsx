@@ -12,7 +12,7 @@ import Loader from '../../components/Loader';
 import ContactsService from '../../services/ContactsService';
 
 import {
-  InputSearchContainer, Header, ListHeader, Card, ErrroContainer,
+  InputSearchContainer, Header, ListHeader, Card, ErrorContainer,
 } from './styles';
 import Button from '../../components/Button';
 
@@ -86,7 +86,7 @@ const Home = () => {
       </Header>
 
       {hasError && (
-        <ErrroContainer>
+        <ErrorContainer>
           <img src={sad} alt="Sad" />
           <div className="details">
             <span>Ocorreu um erro ao obter os seus contatos!</span>
@@ -94,7 +94,7 @@ const Home = () => {
               Tentar novamente
             </Button>
           </div>
-        </ErrroContainer>
+        </ErrorContainer>
       )}
 
       {filteredContacts.length > 0 && (

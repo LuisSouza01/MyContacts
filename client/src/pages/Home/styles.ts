@@ -141,7 +141,7 @@ export const Card = styled.div`
   }
 `;
 
-export const ErrroContainer = styled.div`
+export const ErrorContainer = styled.div`
   margin-top: 16px;
 
   display: flex;
@@ -150,7 +150,7 @@ export const ErrroContainer = styled.div`
   .details {
     margin-left: 24px;
 
-    strong {
+    span {
       font-size: 22px;
       color: ${({ theme }) => theme.colors.danger.main};
       display: block;
