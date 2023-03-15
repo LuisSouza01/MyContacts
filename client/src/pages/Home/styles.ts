@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 type HeaderProps = {
-  hasError: boolean;
+  justifyContent: String;
 }
 
 type ListHeaderProps = {
@@ -33,10 +33,10 @@ export const InputSearchContainer = styled.div`
 export const Header = styled.header<HeaderProps>`
   display: flex;
   align-items: center;
-  justify-content: ${({ hasError }) => (hasError ? 'flex-end' : 'space-between')};
+  justify-content: ${({ justifyContent }) => `${justifyContent}`};
 
   margin-top: 32px;
-  margin-bottom: 2px solid ${({ theme }) => theme.colors.gray[100]};
+  border-bottom: 2px solid ${({ theme }) => theme.colors.gray[100]};
   padding-bottom: 16px;
 
   strong {
@@ -155,6 +155,23 @@ export const ErrorContainer = styled.div`
       color: ${({ theme }) => theme.colors.danger.main};
       display: block;
       margin-bottom: 8px;
+    }
+  }
+`;
+
+export const EmptyListContainer = styled.div`
+  display: flex;
+  margin-top: 16px;
+  align-items: center;
+  flex-direction: column;
+
+  p {
+    margin-top: 8px;
+    text-align: center;
+    color: ${({ theme }) => theme.colors.gray[200]};
+
+    strong {
+      color: ${({ theme }) => theme.colors.primary.main};;
     }
   }
 `;

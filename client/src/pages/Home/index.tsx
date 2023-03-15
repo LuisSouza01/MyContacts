@@ -1,18 +1,20 @@
+/* eslint-disable no-nested-ternary */
 import { Link } from 'react-router-dom';
 import {
   ChangeEvent, useCallback, useEffect, useMemo, useState,
 } from 'react';
 
+import sad from '../../assets/images/sad.svg';
+import emptyBox from '../../assets/images/empty-box.svg';
 import edit from '../../assets/images/icons/Edit.svg';
 import trash from '../../assets/images/icons/Trash.svg';
 import arrow from '../../assets/images/icons/Arrow.svg';
-import sad from '../../assets/images/sad.svg';
 
 import Loader from '../../components/Loader';
 import ContactsService from '../../services/ContactsService';
 
 import {
-  InputSearchContainer, Header, ListHeader, Card, ErrorContainer,
+  InputSearchContainer, Header, ListHeader, Card, ErrorContainer, EmptyListContainer,
 } from './styles';
 import Button from '../../components/Button';
 
@@ -71,17 +73,29 @@ const Home = () => {
     <>
       <Loader isLoading={isLoading} />
 
-      <InputSearchContainer>
-        <input
-          value={searchTerm}
-          type="text"
-          placeholder="Pesquisar contato"
-          onChange={handleSearch}
-        />
-      </InputSearchContainer>
+      {contacts.length > 0 && (
+        <InputSearchContainer>
+          <input
+            value={searchTerm}
+            type="text"
+            placeholder="Pesquisar contato"
+            onChange={handleSearch}
+          />
+        </InputSearchContainer>
+      )}
 
-      <Header hasError={hasError}>
-        {!hasError && (
+      <Header
+        justifyContent={
+          hasError
+            ? 'flex-end'
+            : (
+              contacts.length > 0
+                ? 'space-between'
+                : 'center'
+            )
+        }
+      >
+        {(!hasError && contacts.length > 0) && (
           <strong>
             {filteredContacts.length}
             {filteredContacts.length === 1 ? ' contato' : ' contatos'}
@@ -104,39 +118,57 @@ const Home = () => {
         </ErrorContainer>
       )}
 
-      {!hasError && filteredContacts.length > 0 && (
+      {!hasError && (
         <>
-          <ListHeader orderBy={orderBy}>
-            <button type="button" onClick={handleToogleOrderBy}>
-              <span>Nome</span>
-              <img src={arrow} alt="Ícone de uma seta, em roxo" />
-            </button>
-          </ListHeader>
+          {(contacts.length < 1 && !isLoading) && (
+            <EmptyListContainer>
+              <img src={emptyBox} alt="Empty Box" />
 
-          {filteredContacts.map((contact) => (
-            <Card key={Number(contact.phone)}>
-              <div className="info">
-                <div className="contact-name">
-                  <strong>{contact.name}</strong>
-                  {contact.category_name && (
-                    <small>{contact.category_name}</small>
-                  )}
-                </div>
+              <p>
+                Você ainda não tem nenhum contato cadastrado!
+                Clique no botão
+                <strong> &apos;Novo contato&apos; </strong>
+                à cima para cadastrar o seu
+                primeiro!
+              </p>
+            </EmptyListContainer>
+          )}
 
-                <span>{contact.email}</span>
-                <span>{contact.phone}</span>
-              </div>
-
-              <div className="actions">
-                <Link to={`/edit/${contact.id}`}>
-                  <img src={edit} alt="Ícone de uma caneta em cima de um papel, em azul" />
-                </Link>
-                <button type="button">
-                  <img src={trash} alt="Ícone de uma lixeira, em vermelho" />
+          {filteredContacts.length > 0 && (
+            <>
+              <ListHeader orderBy={orderBy}>
+                <button type="button" onClick={handleToogleOrderBy}>
+                  <span>Nome</span>
+                  <img src={arrow} alt="Ícone de uma seta, em roxo" />
                 </button>
-              </div>
-            </Card>
-          ))}
+              </ListHeader>
+
+              {filteredContacts.map((contact) => (
+                <Card key={Number(contact.phone)}>
+                  <div className="info">
+                    <div className="contact-name">
+                      <strong>{contact.name}</strong>
+                      {contact.category_name && (
+                      <small>{contact.category_name}</small>
+                      )}
+                    </div>
+
+                    <span>{contact.email}</span>
+                    <span>{contact.phone}</span>
+                  </div>
+
+                  <div className="actions">
+                    <Link to={`/edit/${contact.id}`}>
+                      <img src={edit} alt="Ícone de uma caneta em cima de um papel, em azul" />
+                    </Link>
+                    <button type="button">
+                      <img src={trash} alt="Ícone de uma lixeira, em vermelho" />
+                    </button>
+                  </div>
+                </Card>
+              ))}
+            </>
+          )}
         </>
       )}
     </>
