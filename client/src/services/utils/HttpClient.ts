@@ -3,7 +3,7 @@ import React from 'react';
 import APIError from '../../errors/APIError';
 
 interface HttpClientProps {
-  baseURL: String;
+  baseURL: string;
 }
 
 export class HttpClient extends React.Component<HttpClientProps, HttpClientProps> {

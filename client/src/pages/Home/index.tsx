@@ -27,12 +27,12 @@ import {
 import Button from '../../components/Button';
 
 export interface Contact {
-  id: String;
-  name: String;
-  phone: String;
-  email: String;
-  category_id: String;
-  category_name: String;
+  id: string;
+  name: string;
+  phone: string;
+  email: string;
+  category_id: string;
+  category_name: string;
 }
 
 const Home = () => {

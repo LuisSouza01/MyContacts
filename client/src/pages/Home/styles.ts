@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
 type HeaderProps = {
-  justifyContent: String;
+  justifyContent: string;
 }
 
 type ListHeaderProps = {
-  orderBy: String;
+  orderBy: string;
 }
 
 export const InputSearchContainer = styled.div`
