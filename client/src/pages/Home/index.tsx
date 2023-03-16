@@ -6,6 +6,8 @@ import {
 
 import sad from '../../assets/images/sad.svg';
 import emptyBox from '../../assets/images/empty-box.svg';
+import magnifierQuestion from '../../assets/images/magnifier-question.svg';
+
 import edit from '../../assets/images/icons/Edit.svg';
 import trash from '../../assets/images/icons/Trash.svg';
 import arrow from '../../assets/images/icons/Arrow.svg';
@@ -14,7 +16,13 @@ import Loader from '../../components/Loader';
 import ContactsService from '../../services/ContactsService';
 
 import {
-  InputSearchContainer, Header, ListHeader, Card, ErrorContainer, EmptyListContainer,
+  InputSearchContainer,
+  Header,
+  ListHeader,
+  Card,
+  ErrorContainer,
+  EmptyListContainer,
+  SearchNotFoundCointaer,
 } from './styles';
 import Button from '../../components/Button';
 
@@ -132,6 +140,20 @@ const Home = () => {
                 primeiro!
               </p>
             </EmptyListContainer>
+          )}
+
+          {(contacts.length > 0 && filteredContacts.length < 1) && (
+            <SearchNotFoundCointaer>
+              <img src={magnifierQuestion} alt="Magnifier Question" />
+
+              <span>
+                Nenhum resultado foi encontrado para
+                <strong>
+                  &nbsp;
+                  {searchTerm}
+                </strong>
+              </span>
+            </SearchNotFoundCointaer>
           )}
 
           {filteredContacts.length > 0 && (
