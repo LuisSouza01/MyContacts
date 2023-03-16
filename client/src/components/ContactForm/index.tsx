@@ -40,9 +40,7 @@ const ContactForm = ({ buttonLabel }: ContactFormProps) => {
       const categoriesList = await CategoriesService.listCategories();
 
       setCategories(categoriesList);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch {}
   }, []);
 
   useEffect(() => {
