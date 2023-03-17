@@ -1,4 +1,5 @@
 import React from 'react';
+import Spinner from '../Spinner';
 
 import { Container } from './styles';
 
@@ -14,7 +15,9 @@ const FormGroup = ({ children, error, isLoading }: FormGroupProps) => (
       {children}
 
       {isLoading && (
-        <div className="loader" />
+        <div className="loader">
+          <Spinner size={16} />
+        </div>
       )}
     </div>
 

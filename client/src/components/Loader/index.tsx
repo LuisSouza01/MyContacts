@@ -2,6 +2,8 @@ import ReactDOM from 'react-dom';
 
 import { Overlay } from './styles';
 
+import Spinner from '../Spinner';
+
 type LoaderProps = {
   isLoading: boolean;
 }
@@ -20,7 +22,7 @@ const Loader = ({ isLoading }: LoaderProps) => {
   return (
     ReactDOM.createPortal(
       <Overlay>
-        <div className="loader" />
+        <Spinner size={90} />
       </Overlay>,
       fullScreenRoot,
     )
