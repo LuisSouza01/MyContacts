@@ -49,6 +49,11 @@ export const Select = styled.select`
   &:focus {
     border-color: ${({ theme }) => theme.colors.primary.main};
   }
+
+  &[disabled] {
+    border-color: ${({ theme }) => theme.colors.gray[200]};
+    background-color: ${({ theme }) => theme.colors.gray[100]};
+  }
 `;
 
 export const ButtonContainer = styled.div`
