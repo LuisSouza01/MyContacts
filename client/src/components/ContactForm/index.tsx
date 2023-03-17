@@ -110,7 +110,7 @@ const ContactForm = ({ buttonLabel }: ContactFormProps) => {
         />
       </FormGroup>
 
-      <FormGroup isLoading>
+      <FormGroup isLoading={isLoadingCategories}>
         <Select
           value={categoryId}
           onChange={(event) => setCategoryId(event.target.value)}
