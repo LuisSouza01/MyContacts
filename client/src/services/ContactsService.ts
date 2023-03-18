@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Contact } from '../pages/Home';
+import { NewContactFormData } from '../pages/NewContact';
 import { HttpClient } from './utils/HttpClient';
 
 interface ContactsServiceProps {
@@ -20,6 +21,12 @@ class ContactsService extends React.Component<{}, ContactsServiceProps> {
     const { httpClient } = this.state;
 
     return httpClient.get(`/contacts?orderBy=${orderBy}`);
+  }
+
+  async createContact(contact: NewContactFormData): Promise<Contact> {
+    const { httpClient } = this.state;
+
+    return httpClient.post('/contacts', contact);
   }
 }
 

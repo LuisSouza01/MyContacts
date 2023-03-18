@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React, { useCallback, useEffect, useState } from 'react';
 
 import Button from '../Button';
@@ -12,6 +13,7 @@ import CategoriesService from '../../services/CategoriesService';
 import {
   Form, Input, Select, ButtonContainer,
 } from './styles';
+import { NewContactFormData } from '../../pages/NewContact';
 
 export interface Category {
   id: string;
@@ -20,9 +22,11 @@ export interface Category {
 
 type ContactFormProps = {
   buttonLabel: string;
+  // eslint-disable-next-line no-unused-vars
+  onSubmit: (formData: NewContactFormData) => void;
 }
 
-const ContactForm = ({ buttonLabel }: ContactFormProps) => {
+const ContactForm = ({ buttonLabel, onSubmit }: ContactFormProps) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -76,6 +80,13 @@ const ContactForm = ({ buttonLabel }: ContactFormProps) => {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    onSubmit({
+      name,
+      email,
+      phone,
+      categoryId,
+    });
   }
 
   return (

@@ -1,6 +1,7 @@
 interface APIErrorProps {
   response: Response;
   body: any;
+  responseBody?: any;
 }
 
 class APIError extends Error {
@@ -10,7 +11,8 @@ class APIError extends Error {
     super();
 
     this.name = 'APIError';
-    this.message = body?.error || `${response.status} - ${response.statusText}`;
+
+    this.message = body.error || `${response.status} - ${response.statusText}`;
   }
 }
 
