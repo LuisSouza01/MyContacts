@@ -26,7 +26,12 @@ class ContactsService extends React.Component<{}, ContactsServiceProps> {
   async createContact(contact: NewContactFormData): Promise<Contact> {
     const { httpClient } = this.state;
 
-    return httpClient.post('/contacts', contact);
+    return httpClient.post('/contacts', {
+      body: contact,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
   }
 }
 

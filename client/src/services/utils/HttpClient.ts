@@ -17,37 +17,36 @@ export class HttpClient extends React.Component<HttpClientProps, HttpClientProps
     };
   }
 
-  async get(path: String): Promise<any> {
-    const { baseURL } = this.state;
-
-    const response = await fetch(`${baseURL}${path}`);
-
-    const contentType = response.headers.get('Content-Type');
-
-    let body = null;
-
-    if (!contentType?.includes('application/json')) {
-      throw new APIError({ response, body });
-    }
-
-    body = await response.json();
-
-    if (response.ok) {
-      return body;
-    }
-
-    throw new APIError({ response, body });
+  get(path: string, options: any = {}): Promise<any> {
+    return this.makeRequest(path, {
+      method: 'GET',
+      headers: options?.headers,
+    });
   }
 
-  async post(path: String, body: any): Promise<any> {
+  post(path: string, options: any): Promise<any> {
+    return this.makeRequest(path, {
+      method: 'POST',
+      body: options?.body,
+      headers: options?.headers,
+    });
+  }
+
+  async makeRequest(path: string, options: any) {
     const { baseURL } = this.state;
 
+    const headers = new Headers();
+
+    if (options.body) {
+      Object.keys(options.headers).forEach((name) => {
+        headers.append(name, options.headers[name]);
+      });
+    }
+
     const response = await fetch(`${baseURL}${path}`, {
-      method: 'POST',
-      body: JSON.stringify(body),
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      method: options.method,
+      body: JSON.stringify(options.body),
+      headers,
     });
 
     const contentType = response.headers.get('Content-Type');
