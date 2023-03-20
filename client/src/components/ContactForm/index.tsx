@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React, { useCallback, useEffect, useState } from 'react';
 
 import Button from '../Button';
@@ -14,6 +13,7 @@ import {
   Form, Input, Select, ButtonContainer,
 } from './styles';
 import { NewContactFormData } from '../../pages/NewContact';
+import Spinner from '../Spinner';
 
 export interface Category {
   id: string;
@@ -23,7 +23,7 @@ export interface Category {
 type ContactFormProps = {
   buttonLabel: string;
   // eslint-disable-next-line no-unused-vars
-  onSubmit: (formData: NewContactFormData) => void;
+  onSubmit: (formData: NewContactFormData) => Promise<void>;
 }
 
 const ContactForm = ({ buttonLabel, onSubmit }: ContactFormProps) => {
@@ -33,6 +33,7 @@ const ContactForm = ({ buttonLabel, onSubmit }: ContactFormProps) => {
   const [categoryId, setCategoryId] = useState('');
   const [categories, setCategories] = useState<Category[]>();
   const [isLoadingCategories, setIsLoadingCategories] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
     setError, removeError, getErrrorMessageByFieldName, errors,
@@ -78,15 +79,19 @@ const ContactForm = ({ buttonLabel, onSubmit }: ContactFormProps) => {
     setPhone(formatPhone(event.target.value));
   }
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    onSubmit({
+    setIsSubmitting(true);
+
+    await onSubmit({
       name,
       email,
       phone,
       categoryId,
     });
+
+    setIsSubmitting(false);
   }
 
   return (
@@ -98,6 +103,7 @@ const ContactForm = ({ buttonLabel, onSubmit }: ContactFormProps) => {
           placeholder="Nome *"
           error={!!getErrrorMessageByFieldName('name')}
           onChange={(event) => handleNameChange(event)}
+          disabled={isSubmitting}
         />
       </FormGroup>
 
@@ -108,6 +114,7 @@ const ContactForm = ({ buttonLabel, onSubmit }: ContactFormProps) => {
           placeholder="E-mail"
           error={!!getErrrorMessageByFieldName('email')}
           onChange={(event) => handleEmailChange(event)}
+          disabled={isSubmitting}
         />
       </FormGroup>
 
@@ -118,6 +125,7 @@ const ContactForm = ({ buttonLabel, onSubmit }: ContactFormProps) => {
           placeholder="Telefone"
           maxLength={15}
           onChange={(event) => handlePhoneChange(event)}
+          disabled={isSubmitting}
         />
       </FormGroup>
 
@@ -125,7 +133,7 @@ const ContactForm = ({ buttonLabel, onSubmit }: ContactFormProps) => {
         <Select
           value={categoryId}
           onChange={(event) => setCategoryId(event.target.value)}
-          disabled={isLoadingCategories}
+          disabled={isLoadingCategories || isSubmitting}
         >
           <option value="">Selecione uma categoria</option>
 
@@ -141,8 +149,8 @@ const ContactForm = ({ buttonLabel, onSubmit }: ContactFormProps) => {
       </FormGroup>
 
       <ButtonContainer>
-        <Button type="submit" disabled={!isFormValid}>
-          {buttonLabel}
+        <Button type="submit" disabled={!isFormValid || isSubmitting}>
+          {isSubmitting ? <Spinner size={16} /> : buttonLabel}
         </Button>
       </ButtonContainer>
     </Form>

@@ -29,6 +29,11 @@ export const Input = styled.input<InputProps>`
     color: ${theme.colors.danger.main};
     border-color: ${theme.colors.danger.main} !important;
   `}
+
+  &[disabled] {
+    border-color: ${({ theme }) => theme.colors.gray[200]};
+    background-color: ${({ theme }) => theme.colors.gray[100]};
+  }
 `;
 
 export const Select = styled.select`
@@ -51,6 +56,7 @@ export const Select = styled.select`
   }
 
   &[disabled] {
+    opacity: 1;
     border-color: ${({ theme }) => theme.colors.gray[200]};
     background-color: ${({ theme }) => theme.colors.gray[100]};
   }

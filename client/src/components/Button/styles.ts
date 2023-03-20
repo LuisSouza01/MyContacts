@@ -18,6 +18,10 @@ export const ButtonComponent = styled.button<ButtonComponentProps>`
   font-weight: 700;
   transition: background 0.2s ease-in;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   &:hover {
     background: ${({ theme }) => theme.colors.primary.light};
   }
