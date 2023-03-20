@@ -13,7 +13,6 @@ import {
   Form, Input, Select, ButtonContainer,
 } from './styles';
 import { NewContactFormData } from '../../pages/NewContact';
-import Spinner from '../Spinner';
 
 export interface Category {
   id: string;
@@ -149,8 +148,12 @@ const ContactForm = ({ buttonLabel, onSubmit }: ContactFormProps) => {
       </FormGroup>
 
       <ButtonContainer>
-        <Button type="submit" disabled={!isFormValid || isSubmitting}>
-          {isSubmitting ? <Spinner size={16} /> : buttonLabel}
+        <Button
+          type="submit"
+          disabled={!isFormValid}
+          isLoading={isSubmitting}
+        >
+          {buttonLabel}
         </Button>
       </ButtonContainer>
     </Form>
