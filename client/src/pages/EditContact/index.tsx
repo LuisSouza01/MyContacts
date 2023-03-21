@@ -5,7 +5,7 @@ const EditContact = () => (
   <>
     <PageHeader title="Editar Contato" />
 
-    <ContactForm buttonLabel="Salvar alterações" onSubmit={() => console.log('oi')} />
+    <ContactForm buttonLabel="Salvar alterações" onSubmit={async () => console.log('oi')} />
   </>
 );
 

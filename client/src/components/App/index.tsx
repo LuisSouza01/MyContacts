@@ -8,11 +8,13 @@ import GlobalStyles from '../../styles/global';
 import defaultTheme from '../../styles/themes/default';
 
 import { Container } from './styles';
+import ToastContainer from '../Toast/ToastContainer';
 
 const App = () => (
   <BrowserRouter>
     <ThemeProvider theme={defaultTheme}>
       <GlobalStyles />
+      <ToastContainer />
 
       <Container>
         <Header />
