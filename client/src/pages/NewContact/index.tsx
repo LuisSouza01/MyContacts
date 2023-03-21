@@ -1,6 +1,7 @@
 import PageHeader from '../../components/PageHeader';
 import ContactForm from '../../components/ContactForm';
 import ContactsService from '../../services/ContactsService';
+import toast from '../../utils/toast';
 
 export interface NewContactFormData {
   name: string;
@@ -12,12 +13,17 @@ export interface NewContactFormData {
 const NewContact = () => {
   async function handleSubmit(formData: NewContactFormData) {
     try {
-      const response = await ContactsService.createContact(formData);
+      await ContactsService.createContact(formData);
 
-      console.log(response);
+      toast({
+        type: 'success',
+        text: 'Contato criado com sucesso!',
+      });
     } catch {
-      // eslint-disable-next-line no-alert
-      alert('Ocorreu um erro ao cadastrar o contato');
+      toast({
+        type: 'danger',
+        text: 'Ocorreu um erro ao cadastrar o contato',
+      });
     }
   }
 
