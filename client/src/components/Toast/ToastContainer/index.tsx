@@ -35,7 +35,6 @@ const ToastContainer = () => {
       {messages.map((message) => (
         <ToastMessage key={message.id} type={message.type} text={message.text} />
       ))}
-
     </Container>
   );
 };
