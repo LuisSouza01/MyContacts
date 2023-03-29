@@ -23,6 +23,20 @@ export default class EventManager {
       listener(payload);
     });
   }
+
+  removeListener(event: string, listenerToRemove: string) {
+    const listeners = this.listeners[event];
+
+    if (!listeners) {
+      return;
+    }
+
+    const filteredListeners = listeners.filter(
+      (listener: string) => listener !== listenerToRemove,
+    );
+
+    this.listeners[event] = filteredListeners;
+  }
 }
 
 const toastEventManager = new EventManager();
@@ -30,5 +44,3 @@ const toastEventManager = new EventManager();
 toastEventManager.on('addtoast', (payload: any) => {
   console.log('addtoast', payload);
 });
-
-console.log({ toastEventManager });
