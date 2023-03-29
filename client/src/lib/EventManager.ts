@@ -1,31 +1,31 @@
 export default class EventManager {
-  listeners: any;
+  listeners: Map<string, Array<any>>;
 
   constructor() {
-    this.listeners = {};
+    this.listeners = new Map();
   }
 
   // eslint-disable-next-line no-unused-vars
   on(event: string, listener: (payload: any) => void) {
-    if (!this.listeners[event]) {
-      this.listeners[event] = [];
+    if (!this.listeners.has(event)) {
+      this.listeners.set(event, []);
     }
 
-    this.listeners[event].push(listener);
+    this.listeners.get(event)?.push(listener);
   }
 
   emit(event: string, payload: any) {
-    if (!this.listeners[event]) {
+    if (!this.listeners.has(event)) {
       return;
     }
 
-    this.listeners[event].forEach((listener: any) => {
+    this.listeners.get(event)?.forEach((listener: any) => {
       listener(payload);
     });
   }
 
   removeListener(event: string, listenerToRemove: string) {
-    const listeners = this.listeners[event];
+    const listeners = this.listeners.get(event);
 
     if (!listeners) {
       return;
@@ -35,7 +35,7 @@ export default class EventManager {
       (listener: string) => listener !== listenerToRemove,
     );
 
-    this.listeners[event] = filteredListeners;
+    this.listeners.set(event, filteredListeners);
   }
 }
 
