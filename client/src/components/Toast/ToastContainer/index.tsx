@@ -3,30 +3,31 @@ import { useEffect, useState } from 'react';
 import { Container } from './styles';
 
 import ToastMessage from '../ToastMessage';
+import { toastEventManager } from '../../../utils/toast';
 
-type MessageType = {
-  id: number;
+type ToastType = {
   type: 'default' | 'success' | 'danger';
   text: string;
+}
+interface MessageType extends ToastType {
+  id: number;
 }
 
 const ToastContainer = () => {
   const [messages, setMessages] = useState<MessageType[]>([]);
 
   useEffect(() => {
-    function handleAddToast(event: any) {
-      const { type, text } = event.detail;
-
+    function handleAddToast({ type, text }: ToastType) {
       setMessages((prevState) => [
         ...prevState,
         { id: Math.random(), type, text },
       ]);
     }
 
-    document.addEventListener('addtoast', handleAddToast);
+    toastEventManager.on('addtoast', handleAddToast);
 
     return () => {
-      document.removeEventListener('addtoast', handleAddToast);
+      toastEventManager.removeListener('addtoast', handleAddToast);
     };
   }, []);
 

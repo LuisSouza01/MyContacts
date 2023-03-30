@@ -1,3 +1,8 @@
+type PayloadType = {
+  type: 'default' | 'success' | 'danger';
+  text: string;
+}
+
 export default class EventManager {
   listeners: Map<string, Array<any>>;
 
@@ -6,7 +11,7 @@ export default class EventManager {
   }
 
   // eslint-disable-next-line no-unused-vars
-  on(event: string, listener: (payload: any) => void) {
+  on(event: string, listener: (payload: PayloadType) => void) {
     if (!this.listeners.has(event)) {
       this.listeners.set(event, []);
     }
@@ -14,7 +19,7 @@ export default class EventManager {
     this.listeners.get(event)?.push(listener);
   }
 
-  emit(event: string, payload: any) {
+  emit(event: string, payload: PayloadType) {
     if (!this.listeners.has(event)) {
       return;
     }
@@ -24,7 +29,8 @@ export default class EventManager {
     });
   }
 
-  removeListener(event: string, listenerToRemove: string) {
+  // eslint-disable-next-line no-unused-vars
+  removeListener(event: string, listenerToRemove: (payload: PayloadType) => void) {
     const listeners = this.listeners.get(event);
 
     if (!listeners) {
@@ -32,7 +38,7 @@ export default class EventManager {
     }
 
     const filteredListeners = listeners.filter(
-      (listener: string) => listener !== listenerToRemove,
+      (listener: any) => listener !== listenerToRemove,
     );
 
     this.listeners.set(event, filteredListeners);
@@ -41,6 +47,6 @@ export default class EventManager {
 
 const toastEventManager = new EventManager();
 
-toastEventManager.on('addtoast', (payload: any) => {
+toastEventManager.on('addtoast', (payload: PayloadType) => {
   console.log('addtoast', payload);
 });
