@@ -19,7 +19,12 @@ const ToastMessage = ({
   }
 
   return (
-    <Container className={type} onClick={handleRemoveToast}>
+    <Container
+      className={type}
+      onClick={handleRemoveToast}
+      tabIndex={0}
+      role="button"
+    >
       {type === 'danger' && <img src={xCircleIcon} alt="xCircleIcon" />}
       {type === 'success' && <img src={checkCircleIcon} alt="checkCircleIcon" />}
 

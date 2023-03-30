@@ -167,12 +167,12 @@ const Home = () => {
               </ListHeader>
 
               {filteredContacts.map((contact) => (
-                <Card key={Number(contact.phone)}>
+                <Card key={contact.id}>
                   <div className="info">
                     <div className="contact-name">
                       <strong>{contact.name}</strong>
                       {contact.category_name && (
-                      <small>{contact.category_name}</small>
+                        <small>{contact.category_name}</small>
                       )}
                     </div>
 
