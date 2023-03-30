@@ -44,9 +44,3 @@ export default class EventManager {
     this.listeners.set(event, filteredListeners);
   }
 }
-
-const toastEventManager = new EventManager();
-
-toastEventManager.on('addtoast', (payload: PayloadType) => {
-  console.log('addtoast', payload);
-});

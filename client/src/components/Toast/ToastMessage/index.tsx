@@ -6,16 +6,27 @@ import checkCircleIcon from '../../../assets/images/icons/check-circle.svg';
 type ToastMessageProps = {
   text: string;
   type?: 'default' | 'success' | 'danger';
+  // eslint-disable-next-line no-unused-vars
+  onRemoveMessage(id: number): void;
+  id: number;
 }
 
-const ToastMessage = ({ text, type }: ToastMessageProps) => (
-  <Container className={type}>
-    {type === 'danger' && <img src={xCircleIcon} alt="xCircleIcon" />}
-    {type === 'success' && <img src={checkCircleIcon} alt="checkCircleIcon" />}
+const ToastMessage = ({
+  text, type, onRemoveMessage, id,
+}: ToastMessageProps) => {
+  function handleRemoveToast() {
+    onRemoveMessage(id);
+  }
 
-    <strong>{text}</strong>
-  </Container>
-);
+  return (
+    <Container className={type} onClick={handleRemoveToast}>
+      {type === 'danger' && <img src={xCircleIcon} alt="xCircleIcon" />}
+      {type === 'success' && <img src={checkCircleIcon} alt="checkCircleIcon" />}
+
+      <strong>{text}</strong>
+    </Container>
+  );
+};
 
 ToastMessage.defaultProps = {
   type: 'default',

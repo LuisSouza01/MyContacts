@@ -31,10 +31,20 @@ const ToastContainer = () => {
     };
   }, []);
 
+  function handleRemoveMessage(id: number) {
+    setMessages((prevState) => prevState.filter((message) => message.id !== id));
+  }
+
   return (
     <Container>
       {messages.map((message) => (
-        <ToastMessage key={message.id} type={message.type} text={message.text} />
+        <ToastMessage
+          key={message.id}
+          id={message.id}
+          type={message.type}
+          text={message.text}
+          onRemoveMessage={handleRemoveMessage}
+        />
       ))}
     </Container>
   );
