@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Container } from './styles';
 
 import xCircleIcon from '../../../assets/images/icons/x-circle.svg';
@@ -14,6 +15,12 @@ type ToastMessageProps = {
 const ToastMessage = ({
   text, type, onRemoveMessage, id,
 }: ToastMessageProps) => {
+  useEffect(() => {
+    setTimeout(() => {
+      onRemoveMessage(id);
+    }, 7000);
+  }, [id, onRemoveMessage]);
+
   function handleRemoveToast() {
     onRemoveMessage(id);
   }
