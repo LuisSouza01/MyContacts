@@ -18,11 +18,13 @@ const NewContact = () => {
       toast({
         type: 'success',
         text: 'Contato criado com sucesso!',
+        duration: 3000,
       });
     } catch {
       toast({
         type: 'danger',
         text: 'Ocorreu um erro ao cadastrar o contato',
+        duration: 3000,
       });
     }
   }

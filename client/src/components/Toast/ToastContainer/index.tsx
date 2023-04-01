@@ -8,6 +8,7 @@ import { toastEventManager } from '../../../utils/toast';
 type ToastType = {
   type: 'default' | 'success' | 'danger';
   text: string;
+  duration?: number;
 }
 interface MessageType extends ToastType {
   id: number;
@@ -17,10 +18,12 @@ const ToastContainer = () => {
   const [messages, setMessages] = useState<MessageType[]>([]);
 
   useEffect(() => {
-    function handleAddToast({ type, text }: ToastType) {
+    function handleAddToast({ type, text, duration }: ToastType) {
       setMessages((prevState) => [
         ...prevState,
-        { id: Math.random(), type, text },
+        {
+          id: Math.random(), type, text, duration,
+        },
       ]);
     }
 
@@ -43,6 +46,7 @@ const ToastContainer = () => {
           id={message.id}
           type={message.type}
           text={message.text}
+          duration={message.duration}
           onRemoveMessage={handleRemoveMessage}
         />
       ))}

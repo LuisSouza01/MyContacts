@@ -7,19 +7,24 @@ import checkCircleIcon from '../../../assets/images/icons/check-circle.svg';
 type ToastMessageProps = {
   text: string;
   type?: 'default' | 'success' | 'danger';
+  duration?: number;
   // eslint-disable-next-line no-unused-vars
   onRemoveMessage(id: number): void;
   id: number;
 }
 
 const ToastMessage = ({
-  text, type, onRemoveMessage, id,
+  text, type, duration, onRemoveMessage, id,
 }: ToastMessageProps) => {
   useEffect(() => {
-    setTimeout(() => {
+    const timeOutId = setTimeout(() => {
       onRemoveMessage(id);
-    }, 7000);
-  }, [id, onRemoveMessage]);
+    }, duration);
+
+    return () => {
+      clearTimeout(timeOutId);
+    };
+  }, [id, onRemoveMessage, duration]);
 
   function handleRemoveToast() {
     onRemoveMessage(id);
@@ -42,6 +47,7 @@ const ToastMessage = ({
 
 ToastMessage.defaultProps = {
   type: 'default',
+  duration: 7000,
 };
 
 export default ToastMessage;

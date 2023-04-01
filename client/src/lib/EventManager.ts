@@ -1,6 +1,7 @@
 type PayloadType = {
   type: 'default' | 'success' | 'danger';
   text: string;
+  duration?: number;
 }
 
 export default class EventManager {
