@@ -91,6 +91,11 @@ const ContactForm = ({ buttonLabel, onSubmit }: ContactFormProps) => {
     });
 
     setIsSubmitting(false);
+
+    setName('');
+    setEmail('');
+    setPhone('');
+    setCategoryId('');
   }
 
   return (
