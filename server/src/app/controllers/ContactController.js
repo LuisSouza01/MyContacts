@@ -28,14 +28,16 @@ class ContactController {
 
   async store(request, response) {
     const {
-      email, phone, category_id, name,
+      email, phone, categoryId, name,
     } = request.body;
 
     if (!name) {
       return response.status(400).json({ error: 'Name is required.' });
     }
 
-    if (category_id && !isValidUUID(category_id)) {
+    console.log(request.body);
+
+    if (categoryId && !isValidUUID(categoryId)) {
       return response.status(400).json({ error: 'Invalid category id' });
     }
 
@@ -51,7 +53,7 @@ class ContactController {
       name,
       email: email || null,
       phone,
-      category_id: category_id || null,
+      category_id: categoryId || null,
     });
 
     return response.status(201).json(contact);
