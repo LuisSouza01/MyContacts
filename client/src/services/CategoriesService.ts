@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { HttpClient } from './utils/HttpClient';
-import { Category } from '../components/ContactForm';
 
 interface CategoriesServiceProps {
   httpClient: HttpClient;
@@ -16,7 +15,7 @@ class CategoriesService extends React.Component<{}, CategoriesServiceProps> {
     };
   }
 
-  async listCategories(): Promise<Category[]> {
+  listCategories() {
     const { httpClient } = this.state;
 
     return httpClient.get('/categories');

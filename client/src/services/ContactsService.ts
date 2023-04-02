@@ -17,13 +17,13 @@ class ContactsService extends React.Component<{}, ContactsServiceProps> {
     };
   }
 
-  async listContacts(orderBy: string = 'asc'): Promise<Contact[]> {
+  getContactById(id: string) {
     const { httpClient } = this.state;
 
-    return httpClient.get(`/contacts?orderBy=${orderBy}`);
+    return httpClient.get(`/contacts/${id}`);
   }
 
-  async createContact(contact: NewContactFormData): Promise<Contact> {
+  createContact(contact: NewContactFormData): Promise<Contact> {
     const { httpClient } = this.state;
 
     return httpClient.post('/contacts', {
@@ -32,6 +32,12 @@ class ContactsService extends React.Component<{}, ContactsServiceProps> {
         'Content-Type': 'application/json',
       },
     });
+  }
+
+  listContacts(orderBy: string = 'asc'): Promise<Contact[]> {
+    const { httpClient } = this.state;
+
+    return httpClient.get(`/contacts?orderBy=${orderBy}`);
   }
 }
 
