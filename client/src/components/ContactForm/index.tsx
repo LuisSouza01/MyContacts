@@ -1,4 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+  useCallback, useEffect, useState, forwardRef, useImperativeHandle,
+} from 'react';
 
 import Button from '../Button';
 import FormGroup from '../FormGroup';
@@ -13,6 +15,7 @@ import {
   Form, Input, Select, ButtonContainer,
 } from './styles';
 import { NewContactFormData } from '../../pages/NewContact';
+import { Contact } from '../../pages/Home';
 
 export interface Category {
   id: string;
@@ -25,7 +28,7 @@ type ContactFormProps = {
   onSubmit: (formData: NewContactFormData) => Promise<void>;
 }
 
-const ContactForm = ({ buttonLabel, onSubmit }: ContactFormProps) => {
+const ContactForm = forwardRef(({ buttonLabel, onSubmit }: ContactFormProps, ref: any) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -39,6 +42,15 @@ const ContactForm = ({ buttonLabel, onSubmit }: ContactFormProps) => {
   } = useErrors();
 
   const isFormValid = (name && errors.length === 0);
+
+  useImperativeHandle(ref, () => ({
+    setFiledsValues: (contact: Contact) => {
+      setName(contact.name);
+      setEmail(contact.email);
+      setPhone(contact.phone);
+      setCategoryId(contact.category_id);
+    },
+  }), []);
 
   const loadCategories = useCallback(async () => {
     try {
@@ -163,6 +175,6 @@ const ContactForm = ({ buttonLabel, onSubmit }: ContactFormProps) => {
       </ButtonContainer>
     </Form>
   );
-};
+});
 
 export default ContactForm;

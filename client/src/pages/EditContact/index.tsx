@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 import Loader from '../../components/Loader';
@@ -11,6 +11,7 @@ import toast from '../../utils/toast';
 
 const EditContact = () => {
   const navigate = useNavigate();
+  const ContactFormRef = useRef<any>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const { id } = useParams();
@@ -18,8 +19,9 @@ const EditContact = () => {
   useEffect(() => {
     async function loadContact() {
       try {
-        const contactData = await ContactsService.getContactById(id as string);
-        console.log(contactData);
+        const contact = await ContactsService.getContactById(id as string);
+
+        ContactFormRef.current.setFiledsValues(contact);
 
         setIsLoading(false);
       } catch {
@@ -48,6 +50,7 @@ const EditContact = () => {
       />
 
       <ContactForm
+        ref={ContactFormRef}
         buttonLabel="Salvar alterações"
         onSubmit={handleSubmit}
       />
