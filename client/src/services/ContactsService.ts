@@ -39,6 +39,17 @@ class ContactsService extends React.Component<{}, ContactsServiceProps> {
 
     return httpClient.get(`/contacts?orderBy=${orderBy}`);
   }
+
+  updateContact(id: string, contact: NewContactFormData): Promise<Contact> {
+    const { httpClient } = this.state;
+
+    return httpClient.put(`/contacts/${id}`, {
+      body: contact,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  }
 }
 
 export default new ContactsService({});

@@ -32,6 +32,14 @@ export class HttpClient extends React.Component<HttpClientProps, HttpClientProps
     });
   }
 
+  put(path: string, options: any): Promise<any> {
+    return this.makeRequest(path, {
+      method: 'PUT',
+      body: options?.body,
+      headers: options?.headers,
+    });
+  }
+
   async makeRequest(path: string, options: any) {
     const { baseURL } = this.state;
 

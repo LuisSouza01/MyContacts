@@ -14,6 +14,7 @@ const EditContact = () => {
   const navigate = useNavigate();
   const ContactFormRef = useRef<any>(null);
   const [isLoading, setIsLoading] = useState(true);
+
   const [contactName, setContactName] = useState('');
 
   const { id } = useParams();
@@ -41,7 +42,23 @@ const EditContact = () => {
   }, [id, navigate]);
 
   async function handleSubmit(formData: NewContactFormData) {
-    console.log(formData);
+    try {
+      const contact = await ContactsService.updateContact(id ?? '', formData);
+
+      setContactName(contact.name);
+
+      toast({
+        type: 'success',
+        text: 'Contato atualizado com sucesso!',
+        duration: 3000,
+      });
+    } catch {
+      toast({
+        type: 'danger',
+        text: 'Ocorreu um erro ao atualizado o contato',
+        duration: 3000,
+      });
+    }
   }
 
   return (
