@@ -35,8 +35,6 @@ class ContactController {
       return response.status(400).json({ error: 'Name is required.' });
     }
 
-    console.log(request.body);
-
     if (categoryId && !isValidUUID(categoryId)) {
       return response.status(400).json({ error: 'Invalid category id' });
     }

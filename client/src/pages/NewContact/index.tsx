@@ -13,8 +13,6 @@ export interface NewContactFormData {
 const NewContact = () => {
   async function handleSubmit(formData: NewContactFormData) {
     try {
-      console.log(formData);
-
       await ContactsService.createContact(formData);
 
       toast({

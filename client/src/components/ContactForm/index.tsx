@@ -45,15 +45,12 @@ const ContactForm = forwardRef(({ buttonLabel, onSubmit }: ContactFormProps, ref
 
   useImperativeHandle(ref, () => ({
     setFiledsValues: (contact: Contact) => {
-      console.log(contact);
-      setName(contact.name);
-      setEmail(contact.email);
-      setPhone(contact.phone);
-      setCategoryId(contact.category_id);
+      setName(contact.name ?? '');
+      setEmail(contact.email ?? '');
+      setPhone(formatPhone(contact.phone ?? ''));
+      setCategoryId(contact.category_id ?? '');
     },
   }), []);
-
-  console.log(categoryId);
 
   const loadCategories = useCallback(async () => {
     try {

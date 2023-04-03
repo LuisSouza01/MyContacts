@@ -8,19 +8,22 @@ import ContactForm from '../../components/ContactForm';
 import { NewContactFormData } from '../NewContact';
 import ContactsService from '../../services/ContactsService';
 import toast from '../../utils/toast';
+import { Contact } from '../Home';
 
 const EditContact = () => {
   const navigate = useNavigate();
   const ContactFormRef = useRef<any>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [contactName, setContactName] = useState('');
 
   const { id } = useParams();
 
   useEffect(() => {
     async function loadContact() {
       try {
-        const contact = await ContactsService.getContactById(id as string);
+        const contact: Contact = await ContactsService.getContactById(id as string);
 
+        setContactName(contact.name);
         ContactFormRef.current.setFiledsValues(contact);
 
         setIsLoading(false);
@@ -46,7 +49,7 @@ const EditContact = () => {
       <Loader isLoading={isLoading} />
 
       <PageHeader
-        title="Editar Contato"
+        title={isLoading ? 'Carregando...' : `Editar ${contactName}`}
       />
 
       <ContactForm
