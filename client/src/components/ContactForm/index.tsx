@@ -50,6 +50,12 @@ const ContactForm = forwardRef(({ buttonLabel, onSubmit }: ContactFormProps, ref
       setPhone(formatPhone(contact.phone ?? ''));
       setCategoryId(contact.category_id ?? '');
     },
+    resetFields: () => {
+      setName('');
+      setEmail('');
+      setPhone('');
+      setCategoryId('');
+    },
   }), []);
 
   const loadCategories = useCallback(async () => {
