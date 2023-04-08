@@ -1,3 +1,4 @@
+import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Button from '../Button';
@@ -6,9 +7,17 @@ import { Overlay, Container, Footer } from './styles';
 
 type ModalProps = {
   danger?: boolean,
+  title: string,
+  children: React.ReactNode,
+  cancelLabel?: string,
+  confirmLabel?: string
+  onCancel: () => void,
+  onConfirm: () => void
 }
 
-const Modal = ({ danger }: ModalProps) => {
+const Modal = ({
+  danger, title, children, cancelLabel, confirmLabel, onCancel, onConfirm,
+}: ModalProps) => {
   const fullScreenRoot = document.getElementById('fullscreen-root');
 
   if (!fullScreenRoot) {
@@ -19,19 +28,27 @@ const Modal = ({ danger }: ModalProps) => {
     ReactDOM.createPortal(
       <Overlay>
         <Container danger={danger}>
-          <h1>Título do modal</h1>
+          <h1>{title}</h1>
 
-          <p>Corpo do modal</p>
+          <div className="modal-body">
+            {children}
+          </div>
 
           <Footer>
             <button
               type="button"
               className="cancel-button"
+              onClick={onCancel}
             >
-              Cancelar
+              {cancelLabel}
             </button>
 
-            <Button danger>Deletar</Button>
+            <Button
+              danger
+              onClick={onConfirm}
+            >
+              {confirmLabel}
+            </Button>
           </Footer>
         </Container>
       </Overlay>,
@@ -42,6 +59,8 @@ const Modal = ({ danger }: ModalProps) => {
 
 Modal.defaultProps = {
   danger: false,
+  cancelLabel: 'Cancelar',
+  confirmLabel: 'Confirmar',
 };
 
 export default Modal;

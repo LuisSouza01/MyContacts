@@ -13,7 +13,7 @@ export const Overlay = styled.div`
 
   top: 0;
   left: 0;
-  position: absolute;
+  position: fixed;
 
   display: flex;
   align-items: center;
@@ -29,7 +29,7 @@ export const Container = styled.div<ContainerProps>`
   border-radius: 4px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
 
-  h1 {
+  > h1 {
     font-size: 22px;
     color: ${({ theme, danger }) => (
     danger ? theme.colors.danger.main
@@ -37,8 +37,8 @@ export const Container = styled.div<ContainerProps>`
   )}
   }
 
-  p {
-    margin-top: 8px;
+  .modal-body {
+    margin-top: 32px;
   }
 `;
 
@@ -54,7 +54,7 @@ export const Footer = styled.footer`
     background: transparent;
 
     font-size: 16px;
-    margin-right: 8px;
+    margin-right: 24px;
     color: ${({ theme }) => theme.colors.gray[200]};
   }
 `;

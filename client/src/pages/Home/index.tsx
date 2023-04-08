@@ -14,6 +14,7 @@ import trash from '../../assets/images/icons/Trash.svg';
 import arrow from '../../assets/images/icons/Arrow.svg';
 
 import Loader from '../../components/Loader';
+import Button from '../../components/Button';
 import ContactsService from '../../services/ContactsService';
 
 import {
@@ -25,7 +26,7 @@ import {
   EmptyListContainer,
   SearchNotFoundCointaer,
 } from './styles';
-import Button from '../../components/Button';
+import Modal from '../../components/Modal';
 
 export interface Contact {
   id: string;
@@ -81,6 +82,16 @@ const Home = () => {
   return (
     <>
       <Loader isLoading={isLoading} />
+
+      <Modal
+        danger
+        title="Deletar usuário xxx"
+        confirmLabel="Deletar"
+        onCancel={() => alert('CANCELOU')}
+        onConfirm={() => alert('CONFIRMOU')}
+      >
+        Aqui é a mensagem que vai estar no topo de tudoo
+      </Modal>
 
       {contacts.length > 0 && (
         <InputSearchContainer>
@@ -184,6 +195,7 @@ const Home = () => {
                     <Link to={`/edit/${contact.id}`}>
                       <img src={edit} alt="Ícone de uma caneta em cima de um papel, em azul" />
                     </Link>
+
                     <button type="button">
                       <img src={trash} alt="Ícone de uma lixeira, em vermelho" />
                     </button>
