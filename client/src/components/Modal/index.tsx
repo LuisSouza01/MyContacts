@@ -13,14 +13,19 @@ type ModalProps = {
   confirmLabel?: string
   onCancel: () => void,
   onConfirm: () => void
+  visible: boolean
 }
 
 const Modal = ({
-  danger, title, children, cancelLabel, confirmLabel, onCancel, onConfirm,
+  danger, title, children, cancelLabel, confirmLabel, onCancel, onConfirm, visible,
 }: ModalProps) => {
   const fullScreenRoot = document.getElementById('fullscreen-root');
 
   if (!fullScreenRoot) {
+    return null;
+  }
+
+  if (!visible) {
     return null;
   }
 

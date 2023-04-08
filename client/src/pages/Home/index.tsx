@@ -13,6 +13,7 @@ import edit from '../../assets/images/icons/Edit.svg';
 import trash from '../../assets/images/icons/Trash.svg';
 import arrow from '../../assets/images/icons/Arrow.svg';
 
+import Modal from '../../components/Modal';
 import Loader from '../../components/Loader';
 import Button from '../../components/Button';
 import ContactsService from '../../services/ContactsService';
@@ -26,7 +27,6 @@ import {
   EmptyListContainer,
   SearchNotFoundCointaer,
 } from './styles';
-import Modal from '../../components/Modal';
 
 export interface Contact {
   id: string;
@@ -43,6 +43,8 @@ const Home = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+  const [contactBeingDeleted, setContactBeingDeleted] = useState<Contact>();
 
   const filteredContacts = useMemo(() => contacts.filter((contact) => (
     contact.name.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
@@ -79,18 +81,32 @@ const Home = () => {
     loadContacts();
   }
 
+  function handleDeleteContact(contact: Contact) {
+    setIsDeleteModalVisible(true);
+    setContactBeingDeleted(contact);
+  }
+
+  function handleCloseDeleteContact() {
+    setIsDeleteModalVisible(false);
+  }
+
+  function handleConfirmDeleteContact() {
+
+  }
+
   return (
     <>
       <Loader isLoading={isLoading} />
 
       <Modal
         danger
-        title="Deletar usuário xxx"
+        title={`Tem certeza que deseja remover o contato "${contactBeingDeleted?.name}"?`}
         confirmLabel="Deletar"
-        onCancel={() => alert('CANCELOU')}
-        onConfirm={() => alert('CONFIRMOU')}
+        onCancel={handleCloseDeleteContact}
+        onConfirm={handleConfirmDeleteContact}
+        visible={isDeleteModalVisible}
       >
-        Aqui é a mensagem que vai estar no topo de tudoo
+        <p>Esta ação não poderá ser desfeita!</p>
       </Modal>
 
       {contacts.length > 0 && (
@@ -196,7 +212,10 @@ const Home = () => {
                       <img src={edit} alt="Ícone de uma caneta em cima de um papel, em azul" />
                     </Link>
 
-                    <button type="button">
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteContact(contact)}
+                    >
                       <img src={trash} alt="Ícone de uma lixeira, em vermelho" />
                     </button>
                   </div>
