@@ -1,8 +1,7 @@
-import ReactDOM from 'react-dom';
-
 import { Overlay } from './styles';
 
 import Spinner from '../Spinner';
+import ReactPortal from '../ReactPortal';
 
 type LoaderProps = {
   isLoading: boolean;
@@ -13,28 +12,12 @@ const Loader = ({ isLoading }: LoaderProps) => {
     return null;
   }
 
-  const fullScreenRoot = document.getElementById('fullscreen-root');
-
-  if (!fullScreenRoot) {
-    return null;
-  }
-
-  let container = document.getElementById('fullscreen-root');
-
-  if (!container) {
-    container = document.createElement('div');
-    container.setAttribute('id', 'fullscreen-root');
-
-    document.body.appendChild(container);
-  }
-
   return (
-    ReactDOM.createPortal(
+    <ReactPortal containerId="loader-root">
       <Overlay>
         <Spinner size={90} />
-      </Overlay>,
-      fullScreenRoot,
-    )
+      </Overlay>
+    </ReactPortal>
   );
 };
 

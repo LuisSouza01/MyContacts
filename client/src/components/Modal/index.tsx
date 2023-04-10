@@ -1,9 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import Button from '../Button';
 
 import { Overlay, Container, Footer } from './styles';
+import ReactPortal from '../ReactPortal';
 
 type ModalProps = {
   danger?: boolean,
@@ -19,21 +19,12 @@ type ModalProps = {
 const Modal = ({
   danger, title, children, cancelLabel, confirmLabel, onCancel, onConfirm, visible,
 }: ModalProps) => {
-  let fullScreenRoot = document.getElementById('fullscreen-root');
-
-  if (!fullScreenRoot) {
-    fullScreenRoot = document.createElement('div');
-    fullScreenRoot.setAttribute('id', 'fullscreen-root');
-
-    document.body.appendChild(fullScreenRoot);
-  }
-
   if (!visible) {
     return null;
   }
 
   return (
-    ReactDOM.createPortal(
+    <ReactPortal containerId="modal-root">
       <Overlay>
         <Container danger={danger}>
           <h1>{title}</h1>
@@ -59,9 +50,8 @@ const Modal = ({
             </Button>
           </Footer>
         </Container>
-      </Overlay>,
-      fullScreenRoot,
-    )
+      </Overlay>
+    </ReactPortal>
   );
 };
 
