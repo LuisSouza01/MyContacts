@@ -19,10 +19,13 @@ type ModalProps = {
 const Modal = ({
   danger, title, children, cancelLabel, confirmLabel, onCancel, onConfirm, visible,
 }: ModalProps) => {
-  const fullScreenRoot = document.getElementById('fullscreen-root');
+  let fullScreenRoot = document.getElementById('fullscreen-root');
 
   if (!fullScreenRoot) {
-    return null;
+    fullScreenRoot = document.createElement('div');
+    fullScreenRoot.setAttribute('id', 'fullscreen-root');
+
+    document.body.appendChild(fullScreenRoot);
   }
 
   if (!visible) {
