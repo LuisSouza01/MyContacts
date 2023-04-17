@@ -16,6 +16,7 @@ import {
 } from './styles';
 import { NewContactFormData } from '../../pages/NewContact';
 import { Contact } from '../../pages/Home';
+import useSafeAsyncState from '../../hooks/useSafeAsyncState';
 
 export interface Category {
   id: string;
@@ -33,8 +34,8 @@ const ContactForm = forwardRef(({ buttonLabel, onSubmit }: ContactFormProps, ref
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [categoryId, setCategoryId] = useState('');
-  const [categories, setCategories] = useState<Category[]>();
-  const [isLoadingCategories, setIsLoadingCategories] = useState(true);
+  const [categories, setCategories] = useSafeAsyncState([]);
+  const [isLoadingCategories, setIsLoadingCategories] = useSafeAsyncState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
@@ -66,7 +67,7 @@ const ContactForm = forwardRef(({ buttonLabel, onSubmit }: ContactFormProps, ref
     } catch {} finally {
       setIsLoadingCategories(false);
     }
-  }, []);
+  }, [setCategories, setIsLoadingCategories]);
 
   useEffect(() => {
     loadCategories();
@@ -159,7 +160,7 @@ const ContactForm = forwardRef(({ buttonLabel, onSubmit }: ContactFormProps, ref
         >
           <option value="">Selecione uma categoria</option>
 
-          {categories?.map((category) => (
+          {categories?.map((category: any) => (
             <option
               key={category.id}
               value={category.id}
