@@ -9,6 +9,8 @@ import { NewContactFormData } from '../NewContact';
 import ContactsService from '../../services/ContactsService';
 import toast from '../../utils/toast';
 import { Contact } from '../Home';
+import useIsMounted from '../../hooks/useIsMounted';
+import useSafeAsyncAction from '../../hooks/useSafeAsyncAction';
 
 const EditContact = () => {
   const navigate = useNavigate();
@@ -18,28 +20,34 @@ const EditContact = () => {
   const [contactName, setContactName] = useState('');
 
   const { id } = useParams();
+  const isMounted = useIsMounted();
+  const safeAsyncAction = useSafeAsyncAction();
 
   useEffect(() => {
     async function loadContact() {
       try {
         const contact: Contact = await ContactsService.getContactById(id as string);
 
-        setContactName(contact.name);
-        ContactFormRef.current.setFiledsValues(contact);
+        safeAsyncAction(() => {
+          setContactName(contact.name);
+          ContactFormRef.current.setFiledsValues(contact);
 
-        setIsLoading(false);
+          setIsLoading(false);
+        });
       } catch {
-        navigate('/');
+        safeAsyncAction(() => {
+          navigate('/');
 
-        toast({
-          type: 'danger',
-          text: 'Contato não encontrado',
+          toast({
+            type: 'danger',
+            text: 'Contato não encontrado',
+          });
         });
       }
     }
 
     loadContact();
-  }, [id, navigate]);
+  }, [id, navigate, isMounted, safeAsyncAction]);
 
   async function handleSubmit(formData: NewContactFormData) {
     try {
