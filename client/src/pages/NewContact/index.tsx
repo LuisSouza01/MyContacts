@@ -16,9 +16,9 @@ export interface NewContactFormData {
 const NewContact = () => {
   const ContactFormRef = useRef<any>(null);
 
-  async function handleSubmit(formData: NewContactFormData) {
+  async function handleSubmit(contact: NewContactFormData) {
     try {
-      await ContactsService.createContact(formData);
+      await ContactsService.createContact(contact);
 
       ContactFormRef.current.resetFields();
 

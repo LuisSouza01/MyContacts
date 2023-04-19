@@ -3,6 +3,7 @@ import React from 'react';
 import { Contact } from '../pages/Home';
 import { NewContactFormData } from '../pages/NewContact';
 import { HttpClient } from './utils/HttpClient';
+import ContactMapper from './mappers/ContactMapper';
 
 interface ContactsServiceProps {
   httpClient: HttpClient;
@@ -26,8 +27,10 @@ class ContactsService extends React.Component<{}, ContactsServiceProps> {
   createContact(contact: NewContactFormData): Promise<Contact> {
     const { httpClient } = this.state;
 
+    const body = ContactMapper.toPersistence(contact);
+
     return httpClient.post('/contacts', {
-      body: contact,
+      body,
       headers: {
         'Content-Type': 'application/json',
       },
@@ -43,8 +46,10 @@ class ContactsService extends React.Component<{}, ContactsServiceProps> {
   updateContact(id: string, contact: NewContactFormData): Promise<Contact> {
     const { httpClient } = this.state;
 
+    const body = ContactMapper.toPersistence(contact);
+
     return httpClient.put(`/contacts/${id}`, {
-      body: contact,
+      body,
       headers: {
         'Content-Type': 'application/json',
       },
