@@ -23,6 +23,7 @@ export type ContactDomainMapper = {
 class ContactMapper {
   toPersistence(domainContact: NewContactFormData) {
     return {
+      id: domainContact.id,
       name: domainContact.name,
       email: domainContact.email,
       phone: domainContact.phone,

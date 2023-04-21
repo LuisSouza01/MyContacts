@@ -7,8 +7,9 @@ import ContactsService from '../../services/ContactsService';
 import toast from '../../utils/toast';
 
 export interface NewContactFormData {
+  id: string;
   name: string;
-  email: string
+  email: string;
   phone: string;
   categoryId: string;
 }
