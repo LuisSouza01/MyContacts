@@ -27,24 +27,16 @@ import {
   EmptyListContainer,
   SearchNotFoundCointaer,
 } from './styles';
-
-export interface Contact {
-  id: string;
-  name: string;
-  phone: string;
-  email: string;
-  category_id: string;
-  category_name: string;
-}
+import { ContactDomainMapper } from '../../services/mappers/ContactMapper';
 
 const Home = () => {
   const [orderBy, setOrderBy] = useState('asc');
-  const [contacts, setContacts] = useState<Contact[]>([]);
+  const [contacts, setContacts] = useState<ContactDomainMapper[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
-  const [contactBeingDeleted, setContactBeingDeleted] = useState<Contact>();
+  const [contactBeingDeleted, setContactBeingDeleted] = useState<ContactDomainMapper>();
 
   const filteredContacts = useMemo(() => contacts.filter((contact) => (
     contact.name.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
@@ -81,7 +73,7 @@ const Home = () => {
     loadContacts();
   }
 
-  function handleDeleteContact(contact: Contact) {
+  function handleDeleteContact(contact: ContactDomainMapper) {
     setIsDeleteModalVisible(true);
     setContactBeingDeleted(contact);
   }
@@ -198,8 +190,8 @@ const Home = () => {
                   <div className="info">
                     <div className="contact-name">
                       <strong>{contact.name}</strong>
-                      {contact.category_name && (
-                        <small>{contact.category_name}</small>
+                      {contact.category.name && (
+                        <small>{contact.category.name}</small>
                       )}
                     </div>
 

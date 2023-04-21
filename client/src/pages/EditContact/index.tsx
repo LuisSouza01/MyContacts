@@ -8,9 +8,9 @@ import ContactForm from '../../components/ContactForm';
 import { NewContactFormData } from '../NewContact';
 import ContactsService from '../../services/ContactsService';
 import toast from '../../utils/toast';
-import { Contact } from '../Home';
 import useIsMounted from '../../hooks/useIsMounted';
 import useSafeAsyncAction from '../../hooks/useSafeAsyncAction';
+import { ContactDomainMapper } from '../../services/mappers/ContactMapper';
 
 const EditContact = () => {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ const EditContact = () => {
   useEffect(() => {
     async function loadContact() {
       try {
-        const contact: Contact = await ContactsService.getContactById(id as string);
+        const contact: ContactDomainMapper = await ContactsService.getContactById(id as string);
 
         safeAsyncAction(() => {
           setContactName(contact.name);

@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { Contact } from '../pages/Home';
 import { NewContactFormData } from '../pages/NewContact';
 import { HttpClient } from './utils/HttpClient';
-import ContactMapper from './mappers/ContactMapper';
+import ContactMapper, { ContactDomainMapper } from './mappers/ContactMapper';
 
 interface ContactsServiceProps {
   httpClient: HttpClient;
@@ -18,42 +17,50 @@ class ContactsService extends React.Component<{}, ContactsServiceProps> {
     };
   }
 
-  getContactById(id: string) {
+  async getContactById(id: string): Promise<ContactDomainMapper> {
     const { httpClient } = this.state;
 
-    return httpClient.get(`/contacts/${id}`);
+    const contact = await httpClient.get(`/contacts/${id}`);
+
+    return ContactMapper.toDomain(contact);
   }
 
-  createContact(contact: NewContactFormData): Promise<Contact> {
+  async createContact(contact: NewContactFormData): Promise<ContactDomainMapper> {
     const { httpClient } = this.state;
 
     const body = ContactMapper.toPersistence(contact);
 
-    return httpClient.post('/contacts', {
+    const response = await httpClient.post('/contacts', {
       body,
       headers: {
         'Content-Type': 'application/json',
       },
     });
+
+    return ContactMapper.toDomain(response);
   }
 
-  listContacts(orderBy: string = 'asc'): Promise<Contact[]> {
+  async listContacts(orderBy: string = 'asc'): Promise<ContactDomainMapper[]> {
     const { httpClient } = this.state;
 
-    return httpClient.get(`/contacts?orderBy=${orderBy}`);
+    const contacts = await httpClient.get(`/contacts?orderBy=${orderBy}`);
+
+    return contacts.map(ContactMapper.toDomain);
   }
 
-  updateContact(id: string, contact: NewContactFormData): Promise<Contact> {
+  async updateContact(id: string, contact: NewContactFormData): Promise<ContactDomainMapper> {
     const { httpClient } = this.state;
 
     const body = ContactMapper.toPersistence(contact);
 
-    return httpClient.put(`/contacts/${id}`, {
+    const response = await httpClient.put(`/contacts/${id}`, {
       body,
       headers: {
         'Content-Type': 'application/json',
       },
     });
+
+    return ContactMapper.toDomain(response);
   }
 }
 

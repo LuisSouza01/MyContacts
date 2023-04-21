@@ -15,8 +15,8 @@ import {
   Form, Input, Select, ButtonContainer,
 } from './styles';
 import { NewContactFormData } from '../../pages/NewContact';
-import { Contact } from '../../pages/Home';
 import useSafeAsyncState from '../../hooks/useSafeAsyncState';
+import { ContactDomainMapper } from '../../services/mappers/ContactMapper';
 
 export interface Category {
   id: string;
@@ -45,11 +45,11 @@ const ContactForm = forwardRef(({ buttonLabel, onSubmit }: ContactFormProps, ref
   const isFormValid = (name && errors.length === 0);
 
   useImperativeHandle(ref, () => ({
-    setFiledsValues: (contact: Contact) => {
+    setFiledsValues: (contact: ContactDomainMapper) => {
       setName(contact.name ?? '');
       setEmail(contact.email ?? '');
       setPhone(formatPhone(contact.phone ?? ''));
-      setCategoryId(contact.category_id ?? '');
+      setCategoryId(contact.category.id ?? '');
     },
     resetFields: () => {
       setName('');
