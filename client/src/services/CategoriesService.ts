@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { HttpClient } from './utils/HttpClient';
+import CategoryMapper from './mappers/CategoryMapper';
 
 interface CategoriesServiceProps {
   httpClient: HttpClient;
@@ -15,10 +16,12 @@ class CategoriesService extends React.Component<{}, CategoriesServiceProps> {
     };
   }
 
-  listCategories() {
+  async listCategories() {
     const { httpClient } = this.state;
 
-    return httpClient.get('/categories');
+    const categories = await httpClient.get('/categories');
+
+    return categories.map(CategoryMapper.toDomain);
   }
 }
 
