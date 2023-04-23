@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import toast from '../../utils/toast';
-import { NewContactFormData } from '../NewContact';
+import { NewContactFormData } from '../NewContact/useNewContact';
 
 import useIsMounted from '../../hooks/useIsMounted';
 import useSafeAsyncAction from '../../hooks/useSafeAsyncAction';

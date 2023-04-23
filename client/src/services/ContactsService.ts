@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { NewContactFormData } from '../pages/NewContact';
+import { NewContactFormData } from '../pages/NewContact/useNewContact';
 import { HttpClient } from './utils/HttpClient';
 import ContactMapper, { ContactDomainMapper } from './mappers/ContactMapper';
 

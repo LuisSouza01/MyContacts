@@ -1,4 +1,4 @@
-import { NewContactFormData } from '../../pages/NewContact';
+import { NewContactFormData } from '../../pages/NewContact/useNewContact';
 
 type PersistenceContactType = {
   id: string;

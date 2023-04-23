@@ -4,7 +4,7 @@ import toast from '../../utils/toast';
 import ContactsService from '../../services/ContactsService';
 
 export interface NewContactFormData {
-  id: string;
+  id?: string;
   name: string;
   email: string;
   phone: string;
