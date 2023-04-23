@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 type Errors = {
   field: string;
@@ -8,7 +8,7 @@ type Errors = {
 const useErrors = () => {
   const [errors, setErrors] = useState<Errors[]>([]);
 
-  function setError({ field, message }: { field: string, message: string}) {
+  const setError = useCallback(({ field, message }: { field: string, message: string}) => {
     const errorAlreadyExists = errors.find((error) => error.field === field);
 
     if (errorAlreadyExists) {
@@ -18,17 +18,17 @@ const useErrors = () => {
     setErrors((prevState) => [...prevState, {
       field, message,
     }]);
-  }
+  }, [errors]);
 
-  function removeError(fieldName: string) {
+  const removeError = useCallback((fieldName: string) => {
     setErrors((prevState) => prevState.filter(
       (error) => error.field !== fieldName,
     ));
-  }
+  }, []);
 
-  function getErrrorMessageByFieldName(fieldName: string) {
-    return errors.find((error) => error.field === fieldName)?.message;
-  }
+  const getErrrorMessageByFieldName = useCallback((fieldName: string) => (
+    errors.find((error) => error.field === fieldName)?.message
+  ), [errors]);
 
   return {
     errors,
