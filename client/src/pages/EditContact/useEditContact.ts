@@ -1,16 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-import Presentation from './Presentation';
-
-import { NewContactFormData } from '../NewContact';
-import ContactsService from '../../services/ContactsService';
 import toast from '../../utils/toast';
+import { NewContactFormData } from '../NewContact';
+
 import useIsMounted from '../../hooks/useIsMounted';
 import useSafeAsyncAction from '../../hooks/useSafeAsyncAction';
+
+import ContactsService from '../../services/ContactsService';
 import { ContactDomainMapper } from '../../services/mappers/ContactMapper';
 
-const Container = () => {
+const useEditContact = () => {
   const navigate = useNavigate();
   const ContactFormRef = useRef<any>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -67,14 +67,12 @@ const Container = () => {
     }
   }
 
-  return (
-    <Presentation
-      isLoading={isLoading}
-      contactName={contactName}
-      contactFormRef={ContactFormRef}
-      onSubmit={handleSubmit}
-    />
-  );
+  return {
+    isLoading,
+    contactName,
+    ContactFormRef,
+    handleSubmit,
+  };
 };
 
-export default Container;
+export default useEditContact;
