@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import { Link } from 'react-router-dom';
 
 import useHome from './useHome';
@@ -17,13 +16,13 @@ import Button from '../../components/Button';
 import InputSearch from './components/InputSearch';
 
 import {
-  Header,
   ListHeader,
   Card,
   ErrorContainer,
   EmptyListContainer,
   SearchNotFoundCointaer,
 } from './styles';
+import Header from './components/Header';
 
 const Home = () => {
   const {
@@ -55,24 +54,10 @@ const Home = () => {
       )}
 
       <Header
-        justifyContent={
-          hasError
-            ? 'flex-end'
-            : (
-              contacts.length > 0
-                ? 'space-between'
-                : 'center'
-            )
-        }
-      >
-        {(!hasError && contacts.length > 0) && (
-          <strong>
-            {filteredContacts.length}
-            {filteredContacts.length === 1 ? ' contato' : ' contatos'}
-          </strong>
-        )}
-        <Link to="/new">Novo contato</Link>
-      </Header>
+        hasError={hasError}
+        quantityOfContacts={contacts.length}
+        quantityOfFilteredContacts={filteredContacts.length}
+      />
 
       {hasError && (
         <ErrorContainer>
