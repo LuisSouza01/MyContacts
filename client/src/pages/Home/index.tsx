@@ -14,9 +14,9 @@ import arrow from '../../assets/images/icons/Arrow.svg';
 import Modal from '../../components/Modal';
 import Loader from '../../components/Loader';
 import Button from '../../components/Button';
+import InputSearch from './components/InputSearch';
 
 import {
-  InputSearchContainer,
   Header,
   ListHeader,
   Card,
@@ -47,26 +47,11 @@ const Home = () => {
     <>
       <Loader isLoading={isLoading} />
 
-      <Modal
-        danger
-        title={`Tem certeza que deseja remover o contato "${contactBeingDeleted?.name}"?`}
-        confirmLabel="Deletar"
-        onCancel={handleCloseDeleteContact}
-        onConfirm={handleConfirmDeleteContact}
-        visible={isDeleteModalVisible}
-      >
-        <p>Esta ação não poderá ser desfeita!</p>
-      </Modal>
-
       {contacts.length > 0 && (
-        <InputSearchContainer>
-          <input
-            value={searchTerm}
-            type="text"
-            placeholder="Pesquisar contato"
-            onChange={handleSearch}
-          />
-        </InputSearchContainer>
+        <InputSearch
+          onSearch={handleSearch}
+          searchTerm={searchTerm}
+        />
       )}
 
       <Header
@@ -174,6 +159,17 @@ const Home = () => {
           )}
         </>
       )}
+
+      <Modal
+        danger
+        title={`Tem certeza que deseja remover o contato "${contactBeingDeleted?.name}"?`}
+        confirmLabel="Deletar"
+        onCancel={handleCloseDeleteContact}
+        onConfirm={handleConfirmDeleteContact}
+        visible={isDeleteModalVisible}
+      >
+        <p>Esta ação não poderá ser desfeita!</p>
+      </Modal>
     </>
   );
 };
