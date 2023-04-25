@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 
 import useHome from './useHome';
 
-import sad from '../../assets/images/sad.svg';
 import emptyBox from '../../assets/images/empty-box.svg';
 import magnifierQuestion from '../../assets/images/magnifier-question.svg';
 
@@ -12,17 +11,16 @@ import arrow from '../../assets/images/icons/Arrow.svg';
 
 import Modal from '../../components/Modal';
 import Loader from '../../components/Loader';
-import Button from '../../components/Button';
 import InputSearch from './components/InputSearch';
 
 import {
   ListHeader,
   Card,
-  ErrorContainer,
   EmptyListContainer,
   SearchNotFoundCointaer,
 } from './styles';
 import Header from './components/Header';
+import ErrorStatus from './components/ErrorStatus';
 
 const Home = () => {
   const {
@@ -60,17 +58,9 @@ const Home = () => {
       />
 
       {hasError && (
-        <ErrorContainer>
-          <img src={sad} alt="Sad" />
-
-          <div className="details">
-            <span>Ocorreu um erro ao obter os seus contatos!</span>
-
-            <Button type="button" onClick={handleTryAgain}>
-              Tentar novamente
-            </Button>
-          </div>
-        </ErrorContainer>
+        <ErrorStatus
+          onTryAgain={handleTryAgain}
+        />
       )}
 
       {!hasError && (

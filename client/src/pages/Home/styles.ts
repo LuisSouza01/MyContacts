@@ -81,24 +81,6 @@ export const Card = styled.div`
   }
 `;
 
-export const ErrorContainer = styled.div`
-  margin-top: 16px;
-
-  display: flex;
-  align-items: center;
-
-  .details {
-    margin-left: 24px;
-
-    span {
-      font-size: 22px;
-      color: ${({ theme }) => theme.colors.danger.main};
-      display: block;
-      margin-bottom: 8px;
-    }
-  }
-`;
-
 export const EmptyListContainer = styled.div`
   display: flex;
   margin-top: 16px;
