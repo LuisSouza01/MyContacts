@@ -2,8 +2,6 @@ import { Link } from 'react-router-dom';
 
 import useHome from './useHome';
 
-import magnifierQuestion from '../../assets/images/magnifier-question.svg';
-
 import edit from '../../assets/images/icons/Edit.svg';
 import trash from '../../assets/images/icons/Trash.svg';
 import arrow from '../../assets/images/icons/Arrow.svg';
@@ -13,13 +11,13 @@ import Modal from '../../components/Modal';
 import Loader from '../../components/Loader';
 import InputSearch from './components/InputSearch';
 import ErrorStatus from './components/ErrorStatus';
+import EmptyList from './components/EmptyList';
+import SearchNotFound from './components/SearchNotFound';
 
 import {
   ListHeader,
   Card,
-  SearchNotFoundCointaer,
 } from './styles';
-import EmptyList from './components/EmptyList';
 
 const Home = () => {
   const {
@@ -67,17 +65,7 @@ const Home = () => {
           {(contacts.length < 1 && !isLoading) && <EmptyList />}
 
           {(contacts.length > 0 && filteredContacts.length < 1) && (
-            <SearchNotFoundCointaer>
-              <img src={magnifierQuestion} alt="Magnifier Question" />
-
-              <span>
-                Nenhum resultado foi encontrado para
-                <strong>
-                  &nbsp;
-                  {searchTerm}
-                </strong>
-              </span>
-            </SearchNotFoundCointaer>
+            <SearchNotFound searchTerm={searchTerm} />
           )}
 
           {filteredContacts.length > 0 && (
