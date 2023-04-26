@@ -2,25 +2,24 @@ import { Link } from 'react-router-dom';
 
 import useHome from './useHome';
 
-import emptyBox from '../../assets/images/empty-box.svg';
 import magnifierQuestion from '../../assets/images/magnifier-question.svg';
 
 import edit from '../../assets/images/icons/Edit.svg';
 import trash from '../../assets/images/icons/Trash.svg';
 import arrow from '../../assets/images/icons/Arrow.svg';
 
+import Header from './components/Header';
 import Modal from '../../components/Modal';
 import Loader from '../../components/Loader';
 import InputSearch from './components/InputSearch';
+import ErrorStatus from './components/ErrorStatus';
 
 import {
   ListHeader,
   Card,
-  EmptyListContainer,
   SearchNotFoundCointaer,
 } from './styles';
-import Header from './components/Header';
-import ErrorStatus from './components/ErrorStatus';
+import EmptyList from './components/EmptyList';
 
 const Home = () => {
   const {
@@ -65,19 +64,7 @@ const Home = () => {
 
       {!hasError && (
         <>
-          {(contacts.length < 1 && !isLoading) && (
-            <EmptyListContainer>
-              <img src={emptyBox} alt="Empty Box" />
-
-              <p>
-                Você ainda não tem nenhum contato cadastrado!
-                Clique no botão
-                <strong> &apos;Novo contato&apos; </strong>
-                à cima para cadastrar o seu
-                primeiro!
-              </p>
-            </EmptyListContainer>
-          )}
+          {(contacts.length < 1 && !isLoading) && <EmptyList />}
 
           {(contacts.length > 0 && filteredContacts.length < 1) && (
             <SearchNotFoundCointaer>
