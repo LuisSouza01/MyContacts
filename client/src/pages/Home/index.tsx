@@ -2,11 +2,11 @@ import useHome from './useHome';
 
 import Header from './components/Header';
 import Loader from '../../components/Loader';
+import EmptyList from './components/EmptyList';
 import InputSearch from './components/InputSearch';
 import ErrorStatus from './components/ErrorStatus';
-import EmptyList from './components/EmptyList';
-import SearchNotFound from './components/SearchNotFound';
 import ContactsList from './components/ContactsList';
+import SearchNotFound from './components/SearchNotFound';
 
 const Home = () => {
   const {
@@ -26,11 +26,16 @@ const Home = () => {
     handleCloseDeleteContact,
   } = useHome();
 
+  const hasContacts = contacts.length > 0;
+  const isListEmpty = !hasError && (!isLoading && !hasContacts);
+  const isSearchEmpty = !hasError && (hasContacts && filteredContacts.length < 1);
+  const isSearch = !hasError && (filteredContacts.length > 0);
+
   return (
     <>
       <Loader isLoading={isLoading} />
 
-      {contacts.length > 0 && (
+      {hasContacts && (
         <InputSearch
           onSearch={handleSearch}
           searchTerm={searchTerm}
@@ -49,29 +54,22 @@ const Home = () => {
         />
       )}
 
-      {!hasError && (
-        <>
-          {(contacts.length < 1 && !isLoading) && <EmptyList />}
+      {isListEmpty && <EmptyList />}
 
-          {(contacts.length > 0 && filteredContacts.length < 1) && (
-            <SearchNotFound searchTerm={searchTerm} />
-          )}
+      {isSearchEmpty && <SearchNotFound searchTerm={searchTerm} />}
 
-          {filteredContacts.length > 0 && (
-            <ContactsList
-              orderBy={orderBy}
-              filteredContacts={filteredContacts}
-              onDeleteContact={handleDeleteContact}
-              onToogleOrderBy={handleToogleOrderBy}
-              contactBeingDeleted={contactBeingDeleted}
-              isDeleteModalVisible={isDeleteModalVisible}
-              onCloseDeleteContact={handleCloseDeleteContact}
-              onConfirmDeleteContact={handleConfirmDeleteContact}
-            />
-          )}
-        </>
+      {isSearch && (
+        <ContactsList
+          orderBy={orderBy}
+          filteredContacts={filteredContacts}
+          onDeleteContact={handleDeleteContact}
+          onToogleOrderBy={handleToogleOrderBy}
+          contactBeingDeleted={contactBeingDeleted}
+          isDeleteModalVisible={isDeleteModalVisible}
+          onCloseDeleteContact={handleCloseDeleteContact}
+          onConfirmDeleteContact={handleConfirmDeleteContact}
+        />
       )}
-
     </>
   );
 };
