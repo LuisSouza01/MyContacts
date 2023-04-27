@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 import { Link } from 'react-router-dom';
 
-import edit from '../../assets/images/icons/Edit.svg';
-import trash from '../../assets/images/icons/Trash.svg';
-import arrow from '../../assets/images/icons/Arrow.svg';
+import edit from '../../../../assets/images/icons/Edit.svg';
+import trash from '../../../../assets/images/icons/Trash.svg';
+import arrow from '../../../../assets/images/icons/Arrow.svg';
 
 import Modal from '../../../../components/Modal';
 import { ContactDomainMapper } from '../../../../services/mappers/ContactMapper';

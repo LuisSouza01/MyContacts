@@ -1,4 +1,4 @@
-import sad from '../../assets/images/sad.svg';
+import sad from '../../../../assets/images/sad.svg';
 import Button from '../../../../components/Button';
 
 import { Container } from './styles';
