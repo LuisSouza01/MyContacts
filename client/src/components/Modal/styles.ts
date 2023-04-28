@@ -1,8 +1,28 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 type ContainerProps = {
   danger?: boolean
 }
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+`;
+
+const scaleIn = keyframes`
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(1);
+  }
+`;
 
 export const Overlay = styled.div`
   backdrop-filter: blur(5px);
@@ -18,6 +38,8 @@ export const Overlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  animation: ${fadeIn} 0.3s;
 `;
 
 export const Container = styled.div<ContainerProps>`
@@ -40,6 +62,8 @@ export const Container = styled.div<ContainerProps>`
   .modal-body {
     margin-top: 32px;
   }
+
+  animation: ${scaleIn} 0.3s;
 `;
 
 export const Footer = styled.footer`
