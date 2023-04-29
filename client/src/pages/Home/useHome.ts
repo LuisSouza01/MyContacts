@@ -4,6 +4,7 @@ import {
 
 import ContactsService from '../../services/ContactsService';
 import { ContactDomainMapper } from '../../services/mappers/ContactMapper';
+import toast from '../../utils/toast';
 
 const useHome = () => {
   const [orderBy, setOrderBy] = useState('asc');
@@ -26,7 +27,7 @@ const useHome = () => {
 
       setHasError(false);
       setContacts(contactsList);
-    } catch (error) {
+    } catch {
       setHasError(true);
       setContacts([]);
     } finally {
@@ -59,8 +60,28 @@ const useHome = () => {
     setIsDeleteModalVisible(false);
   }
 
-  function handleConfirmDeleteContact() {
+  async function handleConfirmDeleteContact() {
+    try {
+      setIsLoading(true);
 
+      await ContactsService.deleteContact(contactBeingDeleted!.id);
+
+      setContacts((prevState) => prevState.filter(
+        (contact) => contact.id !== contactBeingDeleted!.id,
+      ));
+
+      handleCloseDeleteContact();
+
+      toast({ type: 'success', text: 'Contato deletado com sucesso.' });
+    } catch {
+      toast({
+        type: 'danger',
+        text: 'Ocorreu um erro deletando o contato',
+        duration: 3000,
+      });
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return {

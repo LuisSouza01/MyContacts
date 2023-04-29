@@ -68,11 +68,9 @@ export class HttpClient extends React.Component<HttpClientProps, HttpClientProps
 
     let responseBody = null;
 
-    if (!contentType?.includes('application/json')) {
-      throw new APIError({ response, body: responseBody });
+    if (contentType?.includes('application/json')) {
+      responseBody = await response.json();
     }
-
-    responseBody = await response.json();
 
     if (response.ok) {
       return responseBody;
