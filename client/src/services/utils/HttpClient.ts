@@ -40,6 +40,13 @@ export class HttpClient extends React.Component<HttpClientProps, HttpClientProps
     });
   }
 
+  delete(path: string, options: any): Promise<any> {
+    return this.makeRequest(path, {
+      method: 'DELETE',
+      headers: options?.headers,
+    });
+  }
+
   async makeRequest(path: string, options: any) {
     const { baseURL } = this.state;
 

@@ -62,6 +62,18 @@ class ContactsService extends React.Component<{}, ContactsServiceProps> {
 
     return ContactMapper.toDomain(response);
   }
+
+  async deleteContact(id: string) {
+    const { httpClient } = this.state;
+
+    const response = await httpClient.delete(`/contacts/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return response;
+  }
 }
 
 export default new ContactsService({});
