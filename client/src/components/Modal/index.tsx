@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import Button from '../Button';
 
@@ -20,22 +20,29 @@ const Modal = ({
   danger, title, children, cancelLabel, confirmLabel, onCancel, onConfirm, visible,
 }: ModalProps) => {
   const [shouldRender, setShouldRender] = useState(visible);
+  const overlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (visible) {
       setShouldRender(true);
     }
 
-    let timeoutId: ReturnType<typeof setTimeout>;
+    function handleAnimationEnd() {
+      setShouldRender(false);
+    }
 
-    if (!visible) {
-      timeoutId = setTimeout(() => {
-        setShouldRender(false);
-      }, 300);
+    const overlayRefElement = overlayRef.current;
+
+    if (!visible && overlayRefElement) {
+      overlayRefElement.addEventListener('animationend', () => {
+        handleAnimationEnd();
+      });
     }
 
     return () => {
-      clearTimeout(timeoutId);
+      if (overlayRefElement) {
+        overlayRefElement.removeEventListener('animationend', handleAnimationEnd);
+      }
     };
   }, [visible]);
 
@@ -45,7 +52,7 @@ const Modal = ({
 
   return (
     <ReactPortal containerId="modal-root">
-      <Overlay isLeaving={!visible}>
+      <Overlay isLeaving={!visible} ref={overlayRef}>
         <Container isLeaving={!visible} danger={danger}>
           <h1>{title}</h1>
 
