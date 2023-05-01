@@ -1,7 +1,7 @@
 import styled, { keyframes, css } from 'styled-components';
 
 type OverlayProps = {
-  isLeving: boolean;
+  isLeaving: boolean;
 }
 interface ContainerProps extends OverlayProps {
   danger?: boolean
@@ -63,7 +63,7 @@ export const Overlay = styled.div<OverlayProps>`
   justify-content: center;
   animation: ${fadeIn} 0.3s;
 
-  ${({ isLeving }) => isLeving && css`
+  ${({ isLeaving }) => isLeaving && css`
     animation: ${fadeOut} 0.3s forwards;
   `}
 `;
@@ -91,7 +91,7 @@ export const Container = styled.div<ContainerProps>`
 
   animation: ${scaleIn} 0.3s;
 
-  ${({ isLeving }) => isLeving && css`
+  ${({ isLeaving }) => isLeaving && css`
     animation: ${scaleOut} 0.3s forwards;
   `}
 `;

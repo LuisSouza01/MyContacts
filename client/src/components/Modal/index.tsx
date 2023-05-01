@@ -45,8 +45,8 @@ const Modal = ({
 
   return (
     <ReactPortal containerId="modal-root">
-      <Overlay isLeving={!visible}>
-        <Container isLeving={!visible} danger={danger}>
+      <Overlay isLeaving={!visible}>
+        <Container isLeaving={!visible} danger={danger}>
           <h1>{title}</h1>
 
           <div className="modal-body">
