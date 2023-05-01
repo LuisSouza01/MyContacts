@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Button from '../Button';
 
@@ -19,14 +19,34 @@ type ModalProps = {
 const Modal = ({
   danger, title, children, cancelLabel, confirmLabel, onCancel, onConfirm, visible,
 }: ModalProps) => {
-  if (!visible) {
+  const [shouldRender, setShouldRender] = useState(visible);
+
+  useEffect(() => {
+    if (visible) {
+      setShouldRender(true);
+    }
+
+    let timeoutId: ReturnType<typeof setTimeout>;
+
+    if (!visible) {
+      timeoutId = setTimeout(() => {
+        setShouldRender(false);
+      }, 300);
+    }
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [visible]);
+
+  if (!shouldRender) {
     return null;
   }
 
   return (
     <ReactPortal containerId="modal-root">
-      <Overlay>
-        <Container danger={danger}>
+      <Overlay isLeving={!visible}>
+        <Container isLeving={!visible} danger={danger}>
           <h1>{title}</h1>
 
           <div className="modal-body">

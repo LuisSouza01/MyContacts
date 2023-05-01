@@ -2,9 +2,9 @@ import {
   ChangeEvent, useCallback, useEffect, useMemo, useState,
 } from 'react';
 
+import toast from '../../utils/toast';
 import ContactsService from '../../services/ContactsService';
 import { ContactDomainMapper } from '../../services/mappers/ContactMapper';
-import toast from '../../utils/toast';
 
 const useHome = () => {
   const [orderBy, setOrderBy] = useState('asc');

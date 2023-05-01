@@ -1,6 +1,9 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 
-type ContainerProps = {
+type OverlayProps = {
+  isLeving: boolean;
+}
+interface ContainerProps extends OverlayProps {
   danger?: boolean
 }
 
@@ -14,6 +17,16 @@ const fadeIn = keyframes`
   }
 `;
 
+const fadeOut = keyframes`
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+`;
+
 const scaleIn = keyframes`
   from {
     transform: scale(0);
@@ -24,7 +37,17 @@ const scaleIn = keyframes`
   }
 `;
 
-export const Overlay = styled.div`
+const scaleOut = keyframes`
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(0);
+  }
+`;
+
+export const Overlay = styled.div<OverlayProps>`
   backdrop-filter: blur(5px);
   background: rgba(0, 0, 0, 0.6);
 
@@ -38,8 +61,11 @@ export const Overlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-
   animation: ${fadeIn} 0.3s;
+
+  ${({ isLeving }) => isLeving && css`
+    animation: ${fadeOut} 0.3s forwards;
+  `}
 `;
 
 export const Container = styled.div<ContainerProps>`
@@ -64,6 +90,10 @@ export const Container = styled.div<ContainerProps>`
   }
 
   animation: ${scaleIn} 0.3s;
+
+  ${({ isLeving }) => isLeving && css`
+    animation: ${scaleOut} 0.3s forwards;
+  `}
 `;
 
 export const Footer = styled.footer`
