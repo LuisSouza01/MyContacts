@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 
 import Button from '../Button';
 
 import { Overlay, Container, Footer } from './styles';
 import ReactPortal from '../ReactPortal';
+import useAnimatedUnmount from '../../hooks/useAnimatedUnmount';
 
 type ModalProps = {
   danger?: boolean,
@@ -19,32 +20,7 @@ type ModalProps = {
 const Modal = ({
   danger, title, children, cancelLabel, confirmLabel, onCancel, onConfirm, visible,
 }: ModalProps) => {
-  const [shouldRender, setShouldRender] = useState(visible);
-  const overlayRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (visible) {
-      setShouldRender(true);
-    }
-
-    function handleAnimationEnd() {
-      setShouldRender(false);
-    }
-
-    const overlayRefElement = overlayRef.current;
-
-    if (!visible && overlayRefElement) {
-      overlayRefElement.addEventListener('animationend', () => {
-        handleAnimationEnd();
-      });
-    }
-
-    return () => {
-      if (overlayRefElement) {
-        overlayRefElement.removeEventListener('animationend', handleAnimationEnd);
-      }
-    };
-  }, [visible]);
+  const { shouldRender, animatedElementRef } = useAnimatedUnmount(visible);
 
   if (!shouldRender) {
     return null;
@@ -52,7 +28,7 @@ const Modal = ({
 
   return (
     <ReactPortal containerId="modal-root">
-      <Overlay isLeaving={!visible} ref={overlayRef}>
+      <Overlay isLeaving={!visible} ref={animatedElementRef}>
         <Container isLeaving={!visible} danger={danger}>
           <h1>{title}</h1>
 
