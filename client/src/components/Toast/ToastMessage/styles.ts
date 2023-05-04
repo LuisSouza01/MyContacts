@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
 const messageIn = keyframes`
   from {
@@ -12,7 +12,24 @@ const messageIn = keyframes`
   }
 `;
 
-export const Container = styled.div`
+const messageOut = keyframes`
+  from {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(100px);
+
+  }
+`;
+
+type ContainerProps = {
+  isLeaving: boolean;
+}
+
+export const Container = styled.div<ContainerProps>`
   cursor: pointer;
   padding: 16px 32px;
   border-radius: 4px;
@@ -23,6 +40,8 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
   animation: ${messageIn} 0.3s;
+
+  ${({ isLeaving }) => isLeaving && css`animation: ${messageOut} 0.2s;`}
 
   & + & {
     margin-top: 12px;

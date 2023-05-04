@@ -11,10 +11,16 @@ type ToastMessageProps = {
   // eslint-disable-next-line no-unused-vars
   onRemoveMessage(id: number): void;
   id: number;
+  isLeaving: boolean;
 }
 
 const ToastMessage = ({
-  text, type, duration, onRemoveMessage, id,
+  text,
+  type,
+  duration,
+  onRemoveMessage,
+  id,
+  isLeaving,
 }: ToastMessageProps) => {
   useEffect(() => {
     const timeOutId = setTimeout(() => {
@@ -36,6 +42,7 @@ const ToastMessage = ({
       onClick={handleRemoveToast}
       tabIndex={0}
       role="button"
+      isLeaving={isLeaving}
     >
       {type === 'danger' && <img src={xCircleIcon} alt="xCircleIcon" />}
       {type === 'success' && <img src={checkCircleIcon} alt="checkCircleIcon" />}

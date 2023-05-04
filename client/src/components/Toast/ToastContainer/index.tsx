@@ -16,6 +16,7 @@ interface MessageType extends ToastType {
 
 const ToastContainer = () => {
   const [messages, setMessages] = useState<MessageType[]>([]);
+  const [pendingRemovalMessagesIds, setPendingRemovalMessagesIds] = useState<number[]>([]);
 
   useEffect(() => {
     function handleAddToast({ type, text, duration }: ToastType) {
@@ -35,7 +36,9 @@ const ToastContainer = () => {
   }, []);
 
   const handleRemoveMessage = useCallback((id: number) => {
-    setMessages((prevState) => prevState.filter((message) => message.id !== id));
+    setPendingRemovalMessagesIds(
+      (prevState) => [...prevState, id],
+    );
   }, []);
 
   return (
@@ -48,6 +51,7 @@ const ToastContainer = () => {
           text={message.text}
           duration={message.duration}
           onRemoveMessage={handleRemoveMessage}
+          isLeaving={pendingRemovalMessagesIds.includes(message.id)}
         />
       ))}
     </Container>
