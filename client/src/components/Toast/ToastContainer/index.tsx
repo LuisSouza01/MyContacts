@@ -1,22 +1,29 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect } from 'react';
 
 import { Container } from './styles';
 
 import ToastMessage from '../ToastMessage';
 import { toastEventManager } from '../../../utils/toast';
+import useAnimatedList from '../../../hooks/useAnimatedList';
 
 type ToastType = {
   type: 'default' | 'success' | 'danger';
   text: string;
   duration?: number;
 }
-interface MessageType extends ToastType {
+
+export interface MessageType extends ToastType {
   id: number;
 }
 
 const ToastContainer = () => {
-  const [messages, setMessages] = useState<MessageType[]>([]);
-  const [pendingRemovalMessagesIds, setPendingRemovalMessagesIds] = useState<number[]>([]);
+  const {
+    items: messages,
+    setItems: setMessages,
+    pendingRemovalItemsIds,
+    handleRemoveItem,
+    handleAnimationEnd,
+  } = useAnimatedList();
 
   useEffect(() => {
     function handleAddToast({ type, text, duration }: ToastType) {
@@ -33,21 +40,7 @@ const ToastContainer = () => {
     return () => {
       toastEventManager.removeListener('addtoast', handleAddToast);
     };
-  }, []);
-
-  const handleRemoveMessage = useCallback((id: number) => {
-    setPendingRemovalMessagesIds(
-      (prevState) => [...prevState, id],
-    );
-  }, []);
-
-  const handleAnimationEnd = useCallback((id: number) => {
-    setMessages((prevState) => prevState.filter((message) => message.id !== id));
-
-    setPendingRemovalMessagesIds(
-      (prevState) => prevState.filter((messageId) => messageId !== id),
-    );
-  }, []);
+  }, [setMessages]);
 
   return (
     <Container>
@@ -58,8 +51,8 @@ const ToastContainer = () => {
           type={message.type}
           text={message.text}
           duration={message.duration}
-          onRemoveMessage={handleRemoveMessage}
-          isLeaving={pendingRemovalMessagesIds.includes(message.id)}
+          onRemoveMessage={handleRemoveItem}
+          isLeaving={pendingRemovalItemsIds.includes(message.id)}
           onAnimationEnd={handleAnimationEnd}
         />
       ))}
