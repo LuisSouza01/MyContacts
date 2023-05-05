@@ -19,12 +19,20 @@ const useAnimatedList = () => {
     );
   }, []);
 
+  // eslint-disable-next-line no-unused-vars
+  const renderList = useCallback((renderItem: (list: any) => any) => (
+    items.map(renderItem)
+  ), [items]);
+
+  items.map((element) => element.id === 2);
+
   return {
     items,
     setItems,
     pendingRemovalItemsIds,
     handleRemoveItem,
     handleAnimationEnd,
+    renderList,
   };
 };
 

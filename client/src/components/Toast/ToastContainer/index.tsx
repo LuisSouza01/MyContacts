@@ -18,11 +18,11 @@ export interface MessageType extends ToastType {
 
 const ToastContainer = () => {
   const {
-    items: messages,
     setItems: setMessages,
     pendingRemovalItemsIds,
     handleRemoveItem,
     handleAnimationEnd,
+    renderList,
   } = useAnimatedList();
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const ToastContainer = () => {
 
   return (
     <Container>
-      {messages.map((message) => (
+      {renderList((message) => (
         <ToastMessage
           key={message.id}
           id={message.id}
