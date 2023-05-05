@@ -19,9 +19,7 @@ export interface MessageType extends ToastType {
 const ToastContainer = () => {
   const {
     setItems: setMessages,
-    pendingRemovalItemsIds,
     handleRemoveItem,
-    handleAnimationEnd,
     renderList,
   } = useAnimatedList();
 
@@ -44,7 +42,7 @@ const ToastContainer = () => {
 
   return (
     <Container>
-      {renderList((message) => (
+      {renderList((message, { isLeaving, animatedRef }) => (
         <ToastMessage
           key={message.id}
           id={message.id}
@@ -52,8 +50,8 @@ const ToastContainer = () => {
           text={message.text}
           duration={message.duration}
           onRemoveMessage={handleRemoveItem}
-          isLeaving={pendingRemovalItemsIds.includes(message.id)}
-          onAnimationEnd={handleAnimationEnd}
+          animatedRef={animatedRef}
+          isLeaving={isLeaving}
         />
       ))}
     </Container>

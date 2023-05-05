@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { Container } from './styles';
 
 import xCircleIcon from '../../../assets/images/icons/x-circle.svg';
@@ -12,7 +12,7 @@ type ToastMessageProps = {
   onRemoveMessage(id: number): void;
   id: number;
   isLeaving: boolean;
-  onAnimationEnd(id: number): void;
+  animatedRef: React.RefObject<HTMLDivElement>;
 }
 
 const ToastMessage = ({
@@ -22,26 +22,8 @@ const ToastMessage = ({
   onRemoveMessage,
   id,
   isLeaving,
-  onAnimationEnd,
+  animatedRef,
 }: ToastMessageProps) => {
-  const animatedElementRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    function handleAnimationEnd() {
-      onAnimationEnd(id);
-    }
-
-    const elementRef = animatedElementRef.current;
-
-    if (isLeaving) {
-      elementRef?.addEventListener('animationend', handleAnimationEnd);
-    }
-
-    return () => {
-      elementRef?.removeEventListener('animationend', handleAnimationEnd);
-    };
-  }, [id, isLeaving, onAnimationEnd]);
-
   useEffect(() => {
     const timeOutId = setTimeout(() => {
       onRemoveMessage(id);
@@ -63,7 +45,7 @@ const ToastMessage = ({
       tabIndex={0}
       role="button"
       isLeaving={isLeaving}
-      ref={animatedElementRef}
+      ref={animatedRef}
     >
       {type === 'danger' && <img src={xCircleIcon} alt="xCircleIcon" />}
       {type === 'success' && <img src={checkCircleIcon} alt="checkCircleIcon" />}
