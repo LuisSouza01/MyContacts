@@ -1,5 +1,5 @@
 import React, {
-  createRef, useCallback, useRef, useState,
+  createRef, useCallback, useEffect, useRef, useState,
 } from 'react';
 
 const useAnimatedList = () => {
@@ -7,6 +7,7 @@ const useAnimatedList = () => {
   const [pendingRemovalItemsIds, setPendingRemovalItemsIds] = useState<number[]>([]);
 
   const animatedRefs = useRef(new Map());
+  const animationEndListeners = useRef(new Map());
 
   const handleRemoveItem = useCallback((id: number) => {
     setPendingRemovalItemsIds(
@@ -14,13 +15,13 @@ const useAnimatedList = () => {
     );
   }, []);
 
-  // const handleAnimationEnd = useCallback((id: number) => {
-  //   setItems((prevState) => prevState.filter((item) => item.id !== id));
+  const handleAnimationEnd = useCallback((id: number) => {
+    setItems((prevState) => prevState.filter((item) => item.id !== id));
 
-  //   setPendingRemovalItemsIds(
-  //     (prevState) => prevState.filter((itemId) => itemId !== id),
-  //   );
-  // }, []);
+    setPendingRemovalItemsIds(
+      (prevState) => prevState.filter((itemId) => itemId !== id),
+    );
+  }, []);
 
   const getAnimatedRef = useCallback((itemId: number) => {
     let animatedRef = animatedRefs.current.get(itemId);
@@ -51,23 +52,20 @@ const useAnimatedList = () => {
     })
   ), [items, pendingRemovalItemsIds, getAnimatedRef]);
 
-  // const animatedElementRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    pendingRemovalItemsIds.forEach((id) => {
+      const animatedRef = animatedRefs.current.get(id);
+      const alredyHasListener = animationEndListeners.current.has(id);
 
-  // useEffect(() => {
-  //   function handleAnimationEnd() {
-  //     onAnimationEnd(id);
-  //   }
+      if (animatedRef?.current && !alredyHasListener) {
+        animationEndListeners.current.set(id, true);
 
-  //   const elementRef = animatedElementRef.current;
-
-  //   if (isLeaving) {
-  //     elementRef?.addEventListener('animationend', handleAnimationEnd);
-  //   }
-
-  //   return () => {
-  //     elementRef?.removeEventListener('animationend', handleAnimationEnd);
-  //   };
-  // }, [id, isLeaving, onAnimationEnd]);
+        animatedRef.current.addEventListener('animationend', () => {
+          handleAnimationEnd(id);
+        });
+      }
+    });
+  }, [pendingRemovalItemsIds, handleAnimationEnd]);
 
   return {
     items,
