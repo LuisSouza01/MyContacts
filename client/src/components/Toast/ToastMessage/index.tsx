@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect } from 'react';
-import { Container } from './styles';
+import React, { useEffect, memo } from 'react';
 
 import xCircleIcon from '../../../assets/images/icons/x-circle.svg';
 import checkCircleIcon from '../../../assets/images/icons/check-circle.svg';
+
+import { Container } from './styles';
 
 type ToastMessageProps = {
   text: string;
@@ -60,4 +61,4 @@ ToastMessage.defaultProps = {
   duration: 7000,
 };
 
-export default ToastMessage;
+export default memo(ToastMessage);
