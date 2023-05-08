@@ -85,7 +85,7 @@ const ContactForm = forwardRef((
         >
           <option value="">Selecione uma categoria</option>
 
-          {categories?.map((category: any) => (
+          {categories?.map((category: Category) => (
             <option
               key={category.id}
               value={category.id}

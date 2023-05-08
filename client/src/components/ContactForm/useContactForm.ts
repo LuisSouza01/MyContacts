@@ -15,7 +15,7 @@ import { NewContactFormData } from '../../pages/NewContact/useNewContact';
 const useContactForm = (
   // eslint-disable-next-line no-unused-vars
   onSubmit: (formData: NewContactFormData) => Promise<void>,
-  ref: any,
+  ref: React.ForwardedRef<any>,
 ) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
