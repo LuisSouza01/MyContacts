@@ -2,8 +2,15 @@ import React, {
   createRef, useCallback, useEffect, useRef, useState,
 } from 'react';
 
+type ItemType = {
+  id: number;
+  text: string;
+  type?: 'default' | 'success' | 'danger';
+  duration?: number;
+}
+
 const useAnimatedList = () => {
-  const [items, setItems] = useState<any[]>([]);
+  const [items, setItems] = useState<ItemType[]>([]);
   const [pendingRemovalItemsIds, setPendingRemovalItemsIds] = useState<number[]>([]);
 
   const animatedRefs = useRef(new Map());
@@ -43,7 +50,7 @@ const useAnimatedList = () => {
   const renderList = useCallback((
     renderItem: (
       // eslint-disable-next-line no-unused-vars
-      item: any, { isLeaving, animatedRef }: {
+      item: ItemType, { isLeaving, animatedRef }: {
         isLeaving: boolean;
         animatedRef: React.RefObject<HTMLDivElement>
       }
