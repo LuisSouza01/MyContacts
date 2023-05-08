@@ -1,14 +1,14 @@
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 
 import Button from '../Button';
 import FormGroup from '../FormGroup';
+import useContactForm from './useContactForm';
 
 import { NewContactFormData } from '../../pages/NewContact/useNewContact';
 
 import {
   Form, Input, Select, ButtonContainer,
 } from './styles';
-import useContactForm from './useContactForm';
 
 export interface Category {
   id: string;
@@ -21,7 +21,10 @@ type ContactFormProps = {
   onSubmit: (formData: NewContactFormData) => Promise<void>;
 }
 
-const ContactForm = forwardRef(({ buttonLabel, onSubmit }: ContactFormProps, ref: any) => {
+const ContactForm = forwardRef((
+  { buttonLabel, onSubmit }: ContactFormProps,
+  ref: React.ForwardedRef<HTMLDivElement>,
+) => {
   const {
     handleSubmit,
     getErrrorMessageByFieldName,

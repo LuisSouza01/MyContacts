@@ -12,8 +12,11 @@ import useSafeAsyncState from '../../hooks/useSafeAsyncState';
 import { ContactDomainMapper } from '../../services/mappers/ContactMapper';
 import { NewContactFormData } from '../../pages/NewContact/useNewContact';
 
-// eslint-disable-next-line no-unused-vars
-const useContactForm = (onSubmit: (formData: NewContactFormData) => Promise<void>, ref: any) => {
+const useContactForm = (
+  // eslint-disable-next-line no-unused-vars
+  onSubmit: (formData: NewContactFormData) => Promise<void>,
+  ref: any,
+) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
