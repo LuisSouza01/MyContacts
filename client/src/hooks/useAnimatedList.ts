@@ -74,7 +74,7 @@ const useAnimatedList = () => {
       if (animatedElement && !alredyHasListener) {
         const onAnimationEnd = () => handleAnimationEnd(id);
         const removeListener = () => {
-          animatedElement.removeListener('animationend', onAnimationEnd);
+          animatedElement.removeEventListener('animationend', onAnimationEnd);
         };
 
         animationEndListeners.current.set(id, removeListener);
